@@ -7,12 +7,16 @@ const theme = createTheme({
   palette: {
     primary: {
       main: primary.main,
-      dark: primary.dark
+      dark: primary.dark,
     },
   },
   typography:{
     subtitle1:{
       fontWeight: 500
+    },
+    subtitle:{
+      fontSize: '1.25rem',
+      fontWeight: 400
     }
   }
 });

@@ -54,10 +54,24 @@ export const productSlice = createSlice({
                 state.error = payload
             })
 
+            .addCase(getProduct.pending, (state)=>{
+                state.isLoading = true
+                state.isSuccess = false
+                state.isError = false
+                state.error = ''
+            })
             .addCase(getProduct.fulfilled, (state, {payload})=>{
                 state.isLoading = false
                 state.isSuccess = true
                 state.product = payload
+                state.isError = false
+                state.error = ''
+            })
+            .addCase(getProduct.rejected, (state, {payload})=>{
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.message = payload
             })
     }
 })

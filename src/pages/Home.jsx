@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
 import { getProducts, reset } from '../features/products/productSlice';
 import ProductItem from '../component/ProductItem';
+import { HeadingPrimary } from '../shared/typography';
 const Home = () => {
     const dispatch = useDispatch()
     const { products, isLoading, isSuccess, isError } = useSelector(state => state.product)
@@ -27,9 +28,9 @@ const Home = () => {
         <Container>
             <Grid container direction='column'>
                 <Grid item>
-                    <Typography sx={{ fontWeight: '600', mb: '0.5rem' }} variant='h4'>
+                    <HeadingPrimary sx={{mb: '0.5rem' }} variant='h4'>
                         Featured Products
-                    </Typography>
+                    </HeadingPrimary>
                 </Grid>
                 <Grid item>
                     <Grid container spacing={4}>

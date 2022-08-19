@@ -9,7 +9,8 @@ const getProduct = async (slug)=>{
     return res.data
 }
 
+
 export const productService = {
     getProducts,
-    getProduct
+    getProduct,
 }
