@@ -10,3 +10,7 @@ export const ButtonPrimary = styled(Button)(({ theme }) => ({
         color: 'black'
     }
 }))
+
+export const ButtonDelete = styled(Button)(({theme})=>({
+    
+}))

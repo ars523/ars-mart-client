@@ -3,13 +3,20 @@ import { HeadingPrimary } from '../shared/typography'
 import { Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
+import { ButtonPrimary } from '../shared/button'
+import { useDispatch } from 'react-redux'
+import { deleteOrderByAdmin } from '../features/order/orderSlice'
 
 
 function Order({ orderData, page }) {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const cellText = {
         color: 'grey.900',
         fontWeight: '400'
+    }
+    const handleDelete = (orderId) => {
+        dispatch(deleteOrderByAdmin(orderId))
     }
     return (
         <Container>
@@ -60,13 +67,26 @@ function Order({ orderData, page }) {
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Button
+                                        <ButtonPrimary
+                                            sx={{ mr: '16px' }}
                                             variant='contained'
                                             size='small'
                                             onClick={() => { navigate('/order/' + row._id) }}
                                         >
                                             Details
-                                        </Button>
+                                        </ButtonPrimary>
+                                        {
+                                            page === 'orders' && (
+                                                <Button
+                                                    variant='contained'
+                                                    size='small'
+                                                    color='error'
+                                                    onClick={()=>handleDelete(row._id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            )
+                                        }
                                     </TableCell>
                                 </TableRow>
                             ))}

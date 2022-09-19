@@ -1,8 +1,29 @@
 import React, { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { createProduct, deleteProduct, getProductList, reset, resetProductEdit } from '../features/products/productSlice'
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import {
+  createProduct,
+  deleteProduct,
+  getProductList,
+  reset,
+  resetProductEdit
+} from '../features/products/productSlice'
+import { 
+  Button, 
+  Container, 
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle, 
+  Grid, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Typography } from '@mui/material'
 import { HeadingPrimary } from '../shared/typography'
 import { ButtonPrimary } from '../shared/button'
 import Loader from '../component/Loader'
@@ -49,11 +70,11 @@ function ProductsList() {
       .then((res) => navigate(`/admin/product/${res._id}`))
   }
 
-  const handleEdit = (id) =>{
-      navigate(`/admin/product/${id}`)
+  const handleEdit = (id) => {
+    navigate(`/admin/product/${id}`)
   }
 
-  const handleDelete = (id) =>{
+  const handleDelete = (id) => {
     dispatch(deleteProduct(id))
   }
 
@@ -145,15 +166,15 @@ function ProductsList() {
                           <TableCell>
                             <ButtonPrimary
                               variant='outlined'
-                              onClick={()=>handleEdit(row._id)}
-                              sx={{mr: '8px'}}
+                              onClick={() => handleEdit(row._id)}
+                              sx={{ mr: '8px' }}
                             >
                               Edit
                             </ButtonPrimary>
 
                             <ButtonPrimary
                               variant='outlined'
-                              onClick={()=>handleDelete(row._id)}
+                              onClick={() => handleDelete(row._id)}
                             >
                               Delete
                             </ButtonPrimary>

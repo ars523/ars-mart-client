@@ -65,6 +65,20 @@ export const getAllOrders = createAsyncThunk(
         }
     }
 )
+
+export const deleteOrderByAdmin = createAsyncThunk(
+    'order/deleteOrderByAdmin',
+    async (orderId, thunkApi)=>{
+        const token = thunkApi.getState().auth.user.token
+        try {
+            return await orderService.deleteOrderByAdmin(orderId, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message) ||
+                            error.message || error.toString()
+            return thunkApi.rejectWithValue(message)
+        }
+    }
+)
  
 export const orderSlice = createSlice({
     name: 'order',
@@ -142,6 +156,28 @@ export const orderSlice = createSlice({
                 state.isSuccess = false
                 state.isError = true
                 state.error = action.payload
+            })
+
+
+            .addCase(deleteOrderByAdmin.pending, (state) => {
+                state.isLoading = true
+                state.isSuccess = false
+                state.isError = false
+                state.error = ''
+            })
+
+            .addCase(deleteOrderByAdmin.fulfilled, (state, {payload}) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.orders = state.orders.filter((order)=>order._id!==payload._id) 
+                state.isError = false
+                state.error = ''
+            })
+            .addCase(deleteOrderByAdmin.rejected, (state, { payload }) => {
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.error = payload
             })
     }
 })

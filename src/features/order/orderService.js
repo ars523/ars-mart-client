@@ -42,7 +42,17 @@ const getAllOrders = async (token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const res = await axios.get(URL, config)
+    const res = await axios.get(URL+'/admin', config)
+    return res.data
+}
+
+const deleteOrderByAdmin = async (orderId, token) =>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const res = await axios.delete(URL+`admin/${orderId}`, config)
     return res.data
 }
 
@@ -53,4 +63,5 @@ export const orderService = {
     getOrderById,
     getOrderHistory,
     getAllOrders,
+    deleteOrderByAdmin
 }
