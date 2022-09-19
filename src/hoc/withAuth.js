@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom"
-import { signin } from "../features/auth/authSlice"
+import { reset, signin } from "../features/auth/authSlice"
 import { ButtonPrimary } from "../shared/button"
 import { LinkPrimary } from "../shared/link"
 import { HeadingPrimary } from "../shared/typography"
@@ -15,15 +15,17 @@ const withAuth = (Wrapper, entity = 'login') => {
         const {user, isSuccess} = useSelector(state=>state.auth)
         const location = useLocation()
         const navigate = useNavigate()
+        const dispatch = useDispatch()
         const hitFrom = location?.state?.from
         const go = hitFrom ? hitFrom : '/'
 
         useEffect(()=>{
             if(isSuccess || user){
                 navigate(`${go}`)
+                dispatch(reset)
             }
-        },[user, isSuccess, navigate, go])
-        const dispatch = useDispatch()
+        },[user, isSuccess, navigate, go, dispatch])
+
         const [userData, setUserData] = useState({
             email: '',
             password: '',

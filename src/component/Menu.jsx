@@ -2,14 +2,10 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import MuiMenu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useDispatch } from 'react-redux';
-import { reset, signout } from '../features/auth/authSlice';
-import { resert } from '../features/cart/cartSlice';
-import { useNavigate } from 'react-router-dom';
+import { Divider } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-export default function Menu({ name }) {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+export default function Menu({ name, menuItems }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -18,14 +14,6 @@ export default function Menu({ name }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleLogout = ()=>{
-        handleClose()
-        dispatch(signout())
-        dispatch(resert())
-        dispatch(reset())
-        navigate('/')
-    }
-
     return (
         <>
             <Button
@@ -43,6 +31,7 @@ export default function Menu({ name }) {
                 variant='outlined'
             >
                 {name}
+                <ArrowDropDownIcon />
             </Button>
             <MuiMenu
                 id="basic-menu"
@@ -53,8 +42,15 @@ export default function Menu({ name }) {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                {
+                    menuItems.map((item, i) => (
+                        <MenuItem
+                            key={item.item}
+                            onClick={() => { item.onclick(); handleClose() }}>
+                            {item.item}
+                        </MenuItem>
+                    ))
+                }
             </MuiMenu>
         </>
     );

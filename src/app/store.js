@@ -8,6 +8,6 @@ export const store = configureStore({
         product: productReducer,
         cart: cartReducer,
         auth: authReducer,
-        order: orderReducer
+        order: orderReducer,
     }
 })
