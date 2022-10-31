@@ -21,6 +21,7 @@ import Dashboard from "./pages/Dashboard";
 import Orders from "./pages/Orders";
 import ProductsList from "./pages/ProductsList";
 import EditProduct from "./pages/EditProduct";
+import UsersList from "./pages/UsersList";
 function App() {
   return (
     <>
@@ -57,6 +58,9 @@ function App() {
           {/* <---Admin Routes---> */}
           <Route path="/admin/dashboard" element={<PrivateRoute/>}>
             <Route path="/admin/dashboard" element={<Dashboard/>}/>
+          </Route>
+          <Route path="/admin/users" element={<PrivateRoute/>}>
+            <Route path="/admin/users" element={<UsersList/>}/>
           </Route>
           <Route path="/admin/orders" element={<PrivateRoute/>}>
             <Route path="/admin/orders" element={<Orders/>}/>

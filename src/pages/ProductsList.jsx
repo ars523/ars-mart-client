@@ -8,22 +8,23 @@ import {
   reset,
   resetProductEdit
 } from '../features/products/productSlice'
-import { 
-  Button, 
-  Container, 
-  Dialog, 
-  DialogActions, 
-  DialogContent, 
-  DialogContentText, 
-  DialogTitle, 
-  Grid, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  Typography } from '@mui/material'
+import {
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material'
 import { HeadingPrimary } from '../shared/typography'
 import { ButtonPrimary } from '../shared/button'
 import Loader from '../component/Loader'
