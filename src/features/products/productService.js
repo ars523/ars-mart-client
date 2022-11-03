@@ -61,6 +61,17 @@ const deleteProduct = async (productId, token) => {
     return res.data
 }
 
+const uploadProductImageFile = async (imgageData, token)=>{
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            authorization: `Bearer ${token}`,
+        }
+    }
+    const {data} = await axios.post(`/api/upload`, imgageData, config)
+    return data
+}
+
 
 export const productService = {
     getProducts,
@@ -70,4 +81,5 @@ export const productService = {
     getProductEdit,
     updateProduct,
     deleteProduct,
+    uploadProductImageFile,
 }

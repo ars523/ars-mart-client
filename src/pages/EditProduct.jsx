@@ -4,25 +4,26 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getProductEdit, reset, resetProductEdit, updateProduct } from '../features/products/productSlice'
+import { getProductEdit, resetProductEdit, updateProduct, uploadProductImageFile } from '../features/products/productSlice'
 import { ButtonPrimary } from '../shared/button'
 import { HeadingPrimary } from '../shared/typography'
+import CircularProgress from '@mui/material/CircularProgress';
 
 function EditProduct() {
     const navigate = useNavigate()
     const { id } = useParams()
     const dispatch = useDispatch()
-    const productEdit = useSelector((state) => state.product.productEdit)
+    const {productEdit, isLoading} = useSelector((state) => state.product)
 
     const [inputData, setInputData] = useState({
         name: '',
-        slug:  '',
-        price:  0,
-        image:  '',
-        category:  '',
-        brand:  '',
-        countInStock:  0,
-        description:  '',
+        slug: '',
+        price: 0,
+        image: '',
+        category: '',
+        brand: '',
+        countInStock: 0,
+        description: '',
 
     })
 
@@ -32,12 +33,12 @@ function EditProduct() {
         }
     }, [dispatch])
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getProductEdit(id))
     }, [dispatch, id])
 
-    useEffect(()=>{
-        if(Object.keys(productEdit).length !== 0)
+    useEffect(() => {
+        if (Object.keys(productEdit).length !== 0)
             setInputData(productEdit)
     }, [productEdit])
 
@@ -46,17 +47,23 @@ function EditProduct() {
         newData[e.target.name] = e.target.value
         setInputData(newData)
     }
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        const bodyFormData = new FormData();
+        bodyFormData.append('file', file);
+        dispatch(uploadProductImageFile(bodyFormData))
+    }
 
-    const handleFormSubmit = (e) =>{
+    const handleFormSubmit = (e) => {
         e.preventDefault()
         const updatedData = {
-            ...inputData, 
-            price: parseFloat(inputData.price), 
+            ...inputData,
+            price: parseFloat(inputData.price),
             countInStock: parseInt(inputData.countInStock)
         }
         dispatch(updateProduct(updatedData))
-        .unwrap()
-        .then((res) => navigate(`/admin/productlist`))
+            .unwrap()
+            .then((res) => navigate(`/admin/productlist`))
     }
 
     return (
@@ -116,6 +123,18 @@ function EditProduct() {
                         name='image'
                         onChange={handleInputChange}
                     />
+                </Grid>
+                <Grid item>
+                    {
+                        isLoading
+                        ? <CircularProgress />
+                        :<TextField
+                        fullWidth
+                        size='small'
+                        type='file'
+                        onChange={handleFileChange}
+                    />
+                    }
                 </Grid>
                 <Grid item>
                     <TextField

@@ -108,6 +108,14 @@ export const deleteProduct = createAsyncThunk(
     }
 )
 
+export const uploadProductImageFile = createAsyncThunk(
+    'product/uploadProductImageFile',
+    async (formData, thunkApi)=>{
+        const token = thunkApi.getState().auth.user.token
+        return await productService.uploadProductImageFile(formData, token)
+    }
+)
+
 export const productSlice = createSlice({
     name: 'product',
     initialState,
@@ -234,6 +242,25 @@ export const productSlice = createSlice({
                 state.error = ''
             })
             .addCase(deleteProduct.rejected, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.error = action.payload
+            })
+            .addCase(uploadProductImageFile.pending, (state)=>{
+                state.isLoading = true
+                state.isSuccess = false
+                state.isError = false
+                state.error = ''
+            })
+            .addCase(uploadProductImageFile.fulfilled, (state, {payload})=>{
+                state.isLoading = false
+                state.isSuccess = true
+                state.productEdit = payload.secure_url? {...state.productEdit, image: payload.secure_url}:state.productEdit
+                state.isError = false
+                state.error = ''
+            })
+            .addCase(uploadProductImageFile.rejected, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = false
                 state.isError = true
