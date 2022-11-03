@@ -181,7 +181,7 @@ function EditProduct() {
                     />
                 </Grid>
                 <Grid item>
-                    <ButtonPrimary type='submit' variant='contained'>
+                    <ButtonPrimary type='submit' variant='contained' disabled={isLoading}>
                         Update
                     </ButtonPrimary>
                 </Grid>
