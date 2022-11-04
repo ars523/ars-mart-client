@@ -56,6 +56,16 @@ const deleteOrderByAdmin = async (orderId, token) =>{
     return res.data
 }
 
+const getOrderSummery = async (token)=>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const res = await axios.get(URL+`summery`, config)
+    return res.data
+}
+
 
 
 export const orderService = {
@@ -63,5 +73,6 @@ export const orderService = {
     getOrderById,
     getOrderHistory,
     getAllOrders,
-    deleteOrderByAdmin
+    deleteOrderByAdmin,
+    getOrderSummery,
 }

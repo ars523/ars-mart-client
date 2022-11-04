@@ -5,6 +5,7 @@ const initialState = {
     order: {},
     ordersHistory: [],
     orders: [],
+    ordersSummery: {},
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -72,6 +73,19 @@ export const deleteOrderByAdmin = createAsyncThunk(
         const token = thunkApi.getState().auth.user.token
         try {
             return await orderService.deleteOrderByAdmin(orderId, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message) ||
+                            error.message || error.toString()
+            return thunkApi.rejectWithValue(message)
+        }
+    }
+)
+export const getOrderSummery = createAsyncThunk(
+    'order/getOrderSummery',
+    async (_, thunkApi)=>{
+        const token = thunkApi.getState().auth.user.token
+        try {
+            return await orderService.getOrderSummery(token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message) ||
                             error.message || error.toString()
@@ -178,6 +192,19 @@ export const orderSlice = createSlice({
                 state.isSuccess = false
                 state.isError = true
                 state.error = payload
+            })
+            .addCase(getOrderSummery.pending, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(getOrderSummery.fulfilled, (state, action)=>{
+                state.isLoading = false
+                state.isSuccess = true
+                state.ordersSummery = action.payload
+            })
+            .addCase(getOrderSummery.rejected, (state, action)=>{
+                state.isSuccess = false
+                state.isError = true
+                state.error = action.payload
             })
     }
 })
