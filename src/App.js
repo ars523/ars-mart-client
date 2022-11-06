@@ -18,7 +18,7 @@ import OrderHistory from "./pages/OrderHistory";
 import Profile from "./pages/Profile";
 import AdminRoute from "./component/AdminRoute";
 import Dashboard from "./pages/Dashboard";
-import Orders from "./pages/Orders";
+import OrdersList from "./pages/OrdersList";
 import ProductsList from "./pages/ProductsList";
 import EditProduct from "./pages/EditProduct";
 import UsersList from "./pages/UsersList";
@@ -63,7 +63,7 @@ function App() {
             <Route path="/admin/users" element={<UsersList/>}/>
           </Route>
           <Route path="/admin/orders" element={<PrivateRoute/>}>
-            <Route path="/admin/orders" element={<Orders/>}/>
+            <Route path="/admin/orders" element={<OrdersList/>}/>
           </Route>
           <Route path="/admin/productlist" element={<PrivateRoute/>}>
             <Route path="/admin/productlist" element={<ProductsList/>}/>
