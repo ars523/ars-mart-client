@@ -2,7 +2,7 @@ import { Grid, Container} from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import TablePrimary from '../component/TablePrimary';
-import { getAllUsers } from '../features/user/userSlice';
+import { deleteUser, getAllUsers } from '../features/user/userSlice';
 import { useSelector} from "react-redux";
 const UsersList = () => {
     const dispatch = useDispatch()
@@ -28,7 +28,7 @@ const UsersList = () => {
         {
             name: 'Delete',
             onclick: (id)=>{
-                console.log(id)
+                dispatch(deleteUser(id))
             }
         }
     ]
