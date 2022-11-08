@@ -1,12 +1,13 @@
-import { Container, Grid, TextField} from "@mui/material"
+import { Container, Grid, TextField, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import {useLocation, useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate} from "react-router-dom"
 import { reset, signin } from "../features/auth/authSlice"
 import { ButtonPrimary } from "../shared/button"
 import { HeadingPrimary } from "../shared/typography"
 import { useFormik } from "formik"
 import * as yup from "yup"
+import { LinkPrimary } from "../shared/link"
 const Login = () => {
     const { user, isSuccess } = useSelector(state => state.auth)
     const location = useLocation()
@@ -20,11 +21,11 @@ const Login = () => {
         },
         validationSchema: yup.object({
             email: yup.string().email("Invalid email address").required("Required"),
-            password: yup.string().min(6, "Password is too short").required("Required"),
+            password: yup.string().min(6, "Invalid password").required("Required"),
         }),
         onSubmit: (values) => {
-            const {email, password} = values
-            dispatch(signin({email, password}))
+            const { email, password } = values
+            dispatch(signin({ email, password }))
         }
     })
     const { values, handleChange, handleSubmit, errors, handleBlur, touched } = formik
@@ -57,7 +58,7 @@ const Login = () => {
                         onBlur={handleBlur}
                         value={values.email}
                         error={touched.email && errors.email?.length > 0}
-                        helperText={errors.email}
+                        helperText={touched.email&&errors.email}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -72,15 +73,25 @@ const Login = () => {
                         onBlur={handleBlur}
                         value={values.password}
                         error={touched.password && errors.password?.length > 0}
-                        helperText={errors.password}
+                        helperText={touched.email&&errors.password}
                     />
                 </Grid>
-                <ButtonPrimary
-                    variant="contained"
-                    type="submit"
-                >
-                    Sign in
-                </ButtonPrimary>
+                <Grid item xs={12}>
+                    <ButtonPrimary
+                        variant="contained"
+                        type="submit"
+                    >
+                        Sign in
+                    </ButtonPrimary>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle1">
+                        Don't have an account?
+                        <LinkPrimary to='/registration' style={{ marginLeft: '1rem' }}>
+                            Register
+                        </LinkPrimary>
+                    </Typography>
+                </Grid>
             </Grid>
         </Container>
     );
