@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux';
 import TablePrimary from '../component/TablePrimary';
 import { deleteUser, getAllUsers } from '../features/user/userSlice';
 import { useSelector} from "react-redux";
+import { useNavigate} from 'react-router-dom';
 const UsersList = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const {users} = useSelector((state)=>state.user)
 
@@ -22,7 +24,7 @@ const UsersList = () => {
         {
             name: 'Edit',
             onclick: (id)=>{
-                console.log(id)
+                navigate(`/admin/users/${id}`)
             }
         },
         {

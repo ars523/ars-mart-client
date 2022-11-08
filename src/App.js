@@ -22,6 +22,7 @@ import OrdersList from "./pages/OrdersList";
 import ProductsList from "./pages/ProductsList";
 import EditProduct from "./pages/EditProduct";
 import UsersList from "./pages/UsersList";
+import UserEditScreen from "./pages/UserEditScreen";
 function App() {
   return (
     <>
@@ -70,6 +71,9 @@ function App() {
           </Route>
           <Route path="/admin/product/:id" element={<PrivateRoute/>}>
             <Route path="/admin/product/:id" element={<EditProduct/>}/>
+          </Route>
+          <Route path="/admin/users/:id" element={<PrivateRoute/>}>
+            <Route path="/admin/users/:id" element={<UserEditScreen/>}/>
           </Route>
         </Routes>
     </>
