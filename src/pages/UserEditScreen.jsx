@@ -6,12 +6,19 @@ import { ButtonPrimary } from '../shared/button';
 import { HeadingPrimary } from '../shared/typography';
 import { useFormik } from "formik"
 import * as yup from "yup"
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser, updateUser } from '../features/user/userSlice';
+import Loader from '../component/Loader';
 
 const UserEditScreen = () => {
+    const { userEdit, isLoading } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
     const { id } = useParams()
+
     const formik = useFormik({
         initialValues: {
-            name: undefined || '',
+            name: '',
             email: '',
             isAdmin: false,
         },
@@ -19,13 +26,28 @@ const UserEditScreen = () => {
             name: yup.string().required("Required"),
             email: yup.string().email("Invalid email address").required("Required"),
         }),
-        onSubmit: (values)=>{
-            const {name, email, isAdmin} = values
-            console.log(values)
-        }
+        onSubmit: (values) => {
+            const {name, email, isAdmin } = values
+            dispatch(updateUser({id, name, email, isAdmin}))
+        },
+        enableReinitialze: true,
 
     })
-    const {values, errors, touched} = formik
+
+    useEffect(() => {
+        dispatch(getUser(id))
+    }, [id, dispatch])
+
+    useEffect(() => {
+        if (userEdit) {
+            formik.setValues({
+                name: userEdit.name,
+                email: userEdit.email,
+                isAdmin: userEdit.isAdmin
+            })
+        }
+    }, [userEdit])
+    const { values, errors, touched } = formik
     return (
         <Container maxWidth='sm'>
             <Grid container component='form' spacing={3} onSubmit={formik.handleSubmit}>
@@ -34,43 +56,50 @@ const UserEditScreen = () => {
                         Edit User {id}
                     </HeadingPrimary>
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        placeholder='Name'
-                        fullWidth
-                        size='small'
-                        name='name'
-                        label='Name'
-                        value={values.name}
-                        onChange={formik.handleChange}
-                        helperText={errors.name}
-                        error={errors.name && touched.name}
-                        onBlur={formik.handleBlur}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        placeholder='Email'
-                        fullWidth
-                        size='small'
-                        name='email'
-                        label='Email'
-                        value={values.email}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={errors.email && touched.email}
-                        helperText={errors.email}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={<Checkbox name='isAdmin' onChange={formik.handleChange} />}
-                        label="Make an admin"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <ButtonPrimary type='submit' variant='contained'>Update</ButtonPrimary>
-                </Grid>
+                {
+                    isLoading
+                        ? (<Loader />)
+                        : (<>
+                            <Grid item xs={12}>
+                                <TextField
+                                    placeholder='Name'
+                                    fullWidth
+                                    size='small'
+                                    name='name'
+                                    label='Name'
+                                    value={values.name}
+                                    onChange={formik.handleChange}
+                                    helperText={errors.name}
+                                    error={errors.name && touched.name}
+                                    onBlur={formik.handleBlur}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    placeholder='Email'
+                                    fullWidth
+                                    size='small'
+                                    name='email'
+                                    label='Email'
+                                    value={values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={errors.email && touched.email}
+                                    helperText={errors.email}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControlLabel
+                                    control={<Checkbox name='isAdmin' checked={values.isAdmin} onChange={formik.handleChange} />}
+                                    label="Make an admin"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ButtonPrimary type='submit' variant='contained'>Update</ButtonPrimary>
+                            </Grid>
+                        </>)
+                }
+
             </Grid>
         </Container>
     );

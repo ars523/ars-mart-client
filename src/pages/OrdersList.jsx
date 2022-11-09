@@ -11,7 +11,6 @@ function OrdersList() {
   useEffect(() => {
     dispatch(getAllOrders())
   }, [dispatch])
-console.log('Loading',isLoading)
   return (
     <>
       {

@@ -11,6 +11,26 @@ export const getAllUsers = async (token)=>{
     return res.data
 }
 
+export const getUser = async (userId, token)=>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const res = await axios.get(`${URL}/${userId}`, config)
+    return res.data
+}
+
+export const updateUser = async (newData, token)=>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const res = await axios.put(`${URL}/${newData.id}`,newData, config)
+    return res.data.user
+}
+
 
 export const deleteUser = async (userId, token)=>{
     const config = {
@@ -24,5 +44,7 @@ export const deleteUser = async (userId, token)=>{
 
 export const userService = {
     getAllUsers,
-    deleteUser
+    deleteUser,
+    getUser,
+    updateUser
 }
