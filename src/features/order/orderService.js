@@ -1,6 +1,6 @@
 
 import axios from "axios"
-const URL = '/api/orders/'
+const URL = process.env.REACT_APP_API_URL+'/api/orders/'
 
 const orderProduct = async (orderDetails, token) => {
     const config = {

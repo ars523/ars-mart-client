@@ -27,7 +27,7 @@ const Home = () => {
                 ?(<Loader/>) 
                 :isError
                 ?<Error message={error}/>
-                :(<Grid container direction='column'>
+                :(<Grid container direction='column' spacing={4}>
                     <Grid item>
                         <HeadingPrimary sx={{ mb: '0.5rem' }} variant='h4'>
                             Featured Products

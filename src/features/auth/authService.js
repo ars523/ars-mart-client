@@ -1,5 +1,5 @@
 import axios from "axios"
-const URL = '/api/users/'
+const URL = process.env.REACT_APP_API_URL+'/api/users/'
 
 const signin = async (userData)=>{
     const res = await axios.post(URL+'signin', userData)

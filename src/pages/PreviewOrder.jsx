@@ -17,7 +17,7 @@ function PreviewOrder() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    const { isSuccess, isLoading, isError, order } = useSelector(state => state.order)
+    const { isSuccess, order } = useSelector(state => state.order)
     const { shippingAddress, paymentMethod, carts } = useSelector(state => state.cart)
     const { fullName, address } = shippingAddress
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const URL = '/api/products'
+const URL = process.env.REACT_APP_API_URL+'/api/products'
 
 const getProductList = async (page, token) => {
     const config = {
