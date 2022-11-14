@@ -15,7 +15,7 @@ const ProductItem = ({ product }) => {
     const handleAddCart = async (cartItem) => {
         const isExist = carts.find(cart => cart._id === cartItem._id)
         const quantity = isExist ? isExist.quantity + 1 : 1;
-        const res = await axios.get(`/api/products/${cartItem.slug}`)
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${cartItem.slug}`)
         const stock = res.data.countInStock
         if (quantity <= stock) {
             dispatch(addCart(cartItem))
