@@ -7,7 +7,7 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { ButtonPrimary } from '../shared/button';
 import { HeadingPrimary } from '../shared/typography';
 import { addCart, deleteCart, subtractCart } from '../features/cart/cartSlice';
@@ -21,7 +21,7 @@ const Carts = () => {
     const handleIncreseCart = async (cartItem) => {
         const isExist = carts.find(c => c._id === cartItem._id)
         const quantity = isExist ? isExist.quantity + 1 : 1
-        const res = await axios.get(`/api/products/${cartItem.slug}`)
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${cartItem.slug}`)
         const stock = res.data.countInStock
         if (stock >= quantity) {
             dispatch(addCart(cartItem))
