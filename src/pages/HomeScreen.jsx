@@ -2,31 +2,26 @@ import React from 'react';
 import { Grid, Container} from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
-import { getProducts, reset } from '../features/products/productSlice';
+import { getProducts} from '../features/products/productSlice';
 import ProductItem from '../component/ProductItem';
 import { HeadingPrimary } from '../shared/typography';
 import Loader from '../component/Loader';
 import Error from '../component/Error';
-const Home = () => {
+const HomeScreen = () => {
     const dispatch = useDispatch()
-    const { products, isLoading, isSuccess, isError, error } = useSelector(state => state.product)
+    const { products, isLoading, isError, error } = useSelector(state => state.product)
     
     useEffect(() => {
         dispatch(getProducts())
     }, [dispatch])
-
-    useEffect(() => {
-        if (isSuccess) {
-            dispatch(reset())
-        }
-    }, [dispatch, isSuccess])
+    
     return (
         <Container>
             {
                 isLoading 
                 ?(<Loader/>) 
                 :isError
-                ?<Error message={error}/>
+                ?(<Error message={error}/>)
                 :(<Grid container direction='column' spacing={4}>
                     <Grid item>
                         <HeadingPrimary sx={{ mb: '0.5rem' }} variant='h4'>
@@ -51,4 +46,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomeScreen;

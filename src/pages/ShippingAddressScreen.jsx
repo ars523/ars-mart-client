@@ -9,7 +9,7 @@ import { saveShippingAddress } from '../features/cart/cartSlice';
 import { ButtonPrimary } from '../shared/button';
 import { HeadingPrimary } from '../shared/typography';
 
-const Shipping = () => {
+const ShippingAddressScreen = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {fullName, address, city, postalCode, country} = useSelector(state=>state.cart.shippingAddress)
@@ -104,4 +104,4 @@ const Shipping = () => {
     );
 };
 
-export default Shipping;
+export default ShippingAddressScreen;

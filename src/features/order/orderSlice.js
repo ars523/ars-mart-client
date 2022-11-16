@@ -149,10 +149,12 @@ export const orderSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(getOrderHistory.fulfilled, (state, action)=>{
+                state.isLoading = false
                 state.isSuccess = true
                 state.ordersHistory = action.payload
             })
             .addCase(getOrderHistory.rejected, (state, action)=>{
+                state.isLoading = false
                 state.isSuccess = false
                 state.isError = true
                 state.error = action.payload
@@ -167,6 +169,7 @@ export const orderSlice = createSlice({
                 state.orders = action.payload
             })
             .addCase(getAllOrders.rejected, (state, action)=>{
+                state.isLoading = false
                 state.isSuccess = false
                 state.isError = true
                 state.error = action.payload

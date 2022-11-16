@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import {useNavigate} from 'react-router-dom'
 import { savePaymentMethod } from '../features/cart/cartSlice';
 
-function PaymentMethodSelection() {
+function PaymentMethodScreen() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {paymentMethod, shippingAddress} = useSelector(state=>state.cart)
@@ -76,4 +76,4 @@ function PaymentMethodSelection() {
   )
 }
 
-export default PaymentMethodSelection
+export default PaymentMethodScreen

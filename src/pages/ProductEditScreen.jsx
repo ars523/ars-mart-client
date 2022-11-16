@@ -9,7 +9,7 @@ import { ButtonPrimary } from '../shared/button'
 import { HeadingPrimary } from '../shared/typography'
 import CircularProgress from '@mui/material/CircularProgress';
 
-function EditProduct() {
+function ProductEditScreen() {
     const navigate = useNavigate()
     const { id } = useParams()
     const dispatch = useDispatch()
@@ -190,4 +190,4 @@ function EditProduct() {
     )
 }
 
-export default EditProduct
+export default ProductEditScreen

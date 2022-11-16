@@ -5,18 +5,32 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUserProfile } from '../features/auth/authSlice'
 import { ButtonPrimary } from '../shared/button'
 import { HeadingPrimary } from '../shared/typography'
-
+import {toast} from 'react-toastify'
+import Loader from '../component/Loader'
 function Profile() {
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.auth)
+  const { user, isLoading } = useSelector((state) => state.auth)
   const [name, setName] = useState(user.name)
   const [email, setEmail] = useState(user.email)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
   const onSubmit = (e)=>{
     e.preventDefault()
     dispatch(updateUserProfile({name, email, password}))
+    .unwrap()
+    .then(()=>{
+      toast.success('Updated successfully')
+    })
+    .catch((error)=>{
+      toast.error(error)
+    })
   }
+  
+  if(isLoading){
+    return <Loader/>
+  }
+  
   return (
     <Container maxWidth='sm'>
       <Grid container component='form' rowSpacing={3} onSubmit={onSubmit}>

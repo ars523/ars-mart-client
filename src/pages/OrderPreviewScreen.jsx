@@ -6,18 +6,17 @@ import { HeadingPrimary } from '../shared/typography'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkPrimary } from '../shared/link'
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ButtonPrimary } from '../shared/button'
 import { resertCarts } from '../features/cart/cartSlice'
-import { orderProduct, reset } from '../features/order/orderSlice'
+import { orderProduct} from '../features/order/orderSlice'
 import OrderSummery from '../component/OrderSummery'
+import { toast } from 'react-toastify'
 
-function PreviewOrder() {
+function OrderPreviewScreen() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    const { isSuccess, order } = useSelector(state => state.order)
     const { shippingAddress, paymentMethod, carts } = useSelector(state => state.cart)
     const { fullName, address } = shippingAddress
 
@@ -36,14 +35,15 @@ function PreviewOrder() {
             taxPrice: taxPrice,
             totalPrice: totalPrice,
         }))
-    }
-    useEffect(() => {
-        if (isSuccess) {
+        .unwrap()
+        .then((order)=>{
             dispatch(resertCarts())
             navigate('/order/' + order._id)
-            dispatch(reset())
-        }
-    }, [isSuccess, dispatch, navigate, order])
+            toast.success('Ordered succesfully')
+        })
+        .catch((error)=>toast.error(error))
+    }
+
     return (
         <Container>
             <Grid container direction='column' spacing={3}>
@@ -154,4 +154,4 @@ function PreviewOrder() {
     )
 }
 
-export default PreviewOrder
+export default OrderPreviewScreen

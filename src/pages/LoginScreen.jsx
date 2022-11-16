@@ -1,18 +1,29 @@
 import { Container, Grid, TextField, Typography } from "@mui/material"
-import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useNavigate} from "react-router-dom"
-import { reset, signin } from "../features/auth/authSlice"
+import {signin } from "../features/auth/authSlice"
 import { ButtonPrimary } from "../shared/button"
 import { HeadingPrimary } from "../shared/typography"
 import { useFormik } from "formik"
 import * as yup from "yup"
 import { LinkPrimary } from "../shared/link"
-const Login = () => {
-    const { user, isSuccess } = useSelector(state => state.auth)
+import {toast} from 'react-toastify';
+import Loader from "../component/Loader"
+import { useEffect } from "react"
+
+const LoginScreen = () => {
+    const {isLoading, user} = useSelector(state => state.auth)
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const hitFrom = location?.state?.from
+    const go = hitFrom ? hitFrom : '/'
+
+    useEffect(()=>{
+        if(user){
+            navigate(`${go}`)
+        }
+    }, [user, navigate, go])
 
     const formik = useFormik({
         initialValues: {
@@ -23,21 +34,23 @@ const Login = () => {
             email: yup.string().email("Invalid email address").required("Required"),
             password: yup.string().min(6, "Invalid password").required("Required"),
         }),
+
         onSubmit: (values) => {
             const { email, password } = values
             dispatch(signin({ email, password }))
+            .unwrap()
+            .then(()=>{
+                navigate(`${go}`)
+                toast.success('Signed in successfully')
+            })
+            .catch((error)=>toast.error(error))
         }
     })
     const { values, handleChange, handleSubmit, errors, handleBlur, touched } = formik
-    const hitFrom = location?.state?.from
-    const go = hitFrom ? hitFrom : '/'
 
-    useEffect(() => {
-        if (isSuccess || user) {
-            navigate(`${go}`)
-            dispatch(reset)
-        }
-    }, [user, isSuccess, navigate, go, dispatch])
+    if(isLoading){
+        return <Loader/>
+    }
     return (
         <Container maxWidth='sm' component='form' onSubmit={handleSubmit}>
             <Grid container rowSpacing={3}>
@@ -97,4 +110,4 @@ const Login = () => {
     );
 };
 
-export default Login
+export default LoginScreen

@@ -5,24 +5,25 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import { HeadingPrimary } from '../shared/typography';
 import { LinkPrimary } from '../shared/link';
-import { signup, reset } from '../features/auth/authSlice';
-import {useDispatch, useSelector} from 'react-redux'
+import { signup} from '../features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
+import Loader from "../component/Loader"
 
-
-const Register = () => {
+const RegisterScreen = () => {
     const dispatch = useDispatch()
-    const { user, isSuccess } = useSelector(state => state.auth)
+    const {isLoading, user} = useSelector(state => state.auth)
     const location = useLocation()
     const navigate = useNavigate()
     const hitFrom = location?.state?.from
     const go = hitFrom ? hitFrom : '/'
-    useEffect(() => {
-        if (isSuccess || user) {
+
+    useEffect(()=>{
+        if(user){
             navigate(`${go}`)
-            dispatch(reset())
         }
-    }, [user, isSuccess, navigate, go, dispatch])
+    }, [user, navigate, go])
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -41,11 +42,21 @@ const Register = () => {
         }),
         onSubmit: (values) => {
             dispatch(signup(values))
+                .unwrap()
+                .then(() => {
+                    navigate(`${go}`)
+                    toast.success('Signed up successfully')
+                })
+                .catch((error) => toast.error(error))
         }
     })
 
     const { values, handleChange, handleSubmit, errors, handleBlur, touched } = formik
-    const {name, email, password, confirmPassword } = values
+    const { name, email, password, confirmPassword } = values
+
+    if(isLoading){
+        <Loader/>
+    }
     return (
         <Container maxWidth='sm' sx={{ p: '30px' }}>
             <Grid container rowSpacing={2} component='form' onSubmit={handleSubmit}>
@@ -128,4 +139,4 @@ const Register = () => {
     );
 };
 
-export default Register
+export default RegisterScreen

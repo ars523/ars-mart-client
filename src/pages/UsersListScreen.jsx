@@ -5,14 +5,18 @@ import TablePrimary from '../component/TablePrimary';
 import { deleteUser, getAllUsers } from '../features/user/userSlice';
 import { useSelector} from "react-redux";
 import { useNavigate} from 'react-router-dom';
-const UsersList = () => {
+import { HeadingPrimary } from '../shared/typography';
+import Loader from '../component/Loader';
+import Error from '../component/Error';
+const UsersListScreen = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {users} = useSelector((state)=>state.user)
+    const {users, isLoading, isError, error} = useSelector((state)=>state.user)
 
     useEffect(() => {
         dispatch(getAllUsers())
     }, [dispatch])
+
     const columns = [
         {heading: 'Id',value: '_id'}, 
         {heading: 'Name', value: 'name'}, 
@@ -20,6 +24,7 @@ const UsersList = () => {
         {heading: 'Admin', value: 'isAdmin'}, 
         {heading: 'Actions', value: 'actions'}
     ]
+
     const actions = [
         {
             name: 'Edit',
@@ -34,9 +39,22 @@ const UsersList = () => {
             }
         }
     ]
+
+    if (isLoading) {
+        return <Loader />
+      }
+      else if (isError) {
+        return <Error message={error} />
+      }
+      else if (users.length === 0) {
+        return <Error message='No Users found'/>
+      }
     return(
         <Container>
             <Grid container direction='column' rowSpacing='1rem'>
+                <HeadingPrimary variant='h4' sx={{ color: 'grey.900' }}>
+                    Users
+                </HeadingPrimary>
                 <Grid item container justifyContent='space-between'>
                     <TablePrimary data = {users} columns={columns} actions={actions}/>
                 </Grid>
@@ -45,4 +63,4 @@ const UsersList = () => {
     );
 };
 
-export default UsersList;
+export default UsersListScreen;

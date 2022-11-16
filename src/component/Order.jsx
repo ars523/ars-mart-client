@@ -3,7 +3,6 @@ import { HeadingPrimary } from '../shared/typography'
 import { Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
-import { ButtonPrimary } from '../shared/button'
 import { useDispatch } from 'react-redux'
 import { deleteOrderByAdmin } from '../features/order/orderSlice'
 
@@ -67,14 +66,14 @@ function Order({ orderData, page }) {
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <ButtonPrimary
+                                        <Button
                                             sx={{ mr: '16px' }}
                                             variant='contained'
                                             size='small'
                                             onClick={() => { navigate('/order/' + row._id) }}
                                         >
                                             Details
-                                        </ButtonPrimary>
+                                        </Button>
                                         {
                                             page === 'orders' && (
                                                 <Button

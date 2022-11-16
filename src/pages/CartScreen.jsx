@@ -13,7 +13,7 @@ import { HeadingPrimary } from '../shared/typography';
 import { addCart, deleteCart, subtractCart } from '../features/cart/cartSlice';
 import { LinkPrimary } from '../shared/link';
 
-const Carts = () => {
+const CartScreen = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { carts } = useSelector(state => state.cart)
@@ -51,7 +51,6 @@ const Carts = () => {
                                     <Paper variant='outlined'>
                                         <Table>
                                             <TableBody>
-
                                                 {
                                                     carts.map(cart => (
                                                         <TableRow key={cart.slug}>
@@ -89,7 +88,6 @@ const Carts = () => {
                                                                 </IconButton>
                                                             </TableCell>
                                                         </TableRow>
-
                                                     ))
                                                 }
                                             </TableBody>
@@ -139,4 +137,4 @@ const Carts = () => {
     );
 };
 
-export default Carts;
+export default CartScreen;

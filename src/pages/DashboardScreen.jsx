@@ -1,6 +1,6 @@
 import React from 'react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { PieChart, Pie, Legend } from 'recharts';
+import { PieChart, Pie} from 'recharts';
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderSummery } from '../features/order/orderSlice'
@@ -8,7 +8,7 @@ import { Container, Grid, Paper, Typography } from '@mui/material'
 import { HeadingPrimary } from '../shared/typography'
 import Loader from '../component/Loader'
 import { useTheme } from '@mui/material/styles';
-function Dashboard() {
+function DashboardScreen() {
   const theme = useTheme()
   const dispatch = useDispatch()
   const { order } = useSelector((state) => state)
@@ -102,4 +102,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default DashboardScreen

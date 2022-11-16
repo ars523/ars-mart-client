@@ -3,31 +3,37 @@ import { Container, Stack } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import Error from '../component/Error'
+import Loader from '../component/Loader'
 import OrderSummery from '../component/OrderSummery'
-import { getOrderById, reset } from '../features/order/orderSlice'
+import { getOrderById} from '../features/order/orderSlice'
 import { LinkPrimary } from '../shared/link'
 import { HeadingPrimary } from '../shared/typography'
 
-function Order() {
+function OrderDetailsScreen() {
   const dispatch = useDispatch()
   const { orderId } = useParams()
-  const { shippingAddress,
+  const {order, isLoading, isError, error} = useSelector(state => state.order)
+  const { 
+    shippingAddress,
     paymentMethod,
     orderItems,
     itemsPrice,
     shippingPrice,
     taxPrice,
-    totalPrice } = useSelector(state => state.order.order)
-  
-  useEffect(()=>{
-    return ()=>{
-      dispatch(reset())
-    }
-  }, [dispatch])
+    totalPrice } = order
   
   useEffect(() => {
     dispatch(getOrderById(orderId))
   }, [orderId, dispatch])
+
+  if(isLoading){
+    return <Loader/>
+  }
+  if(isError){
+    return <Error message={error}/>
+  }
+
   return (
     <Container>
       <Grid container rowSpacing={2} columnSpacing={3}>
@@ -112,4 +118,4 @@ function Order() {
   )
 }
 
-export default Order
+export default OrderDetailsScreen
