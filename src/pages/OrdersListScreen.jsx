@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import TablePrimary from '../component/TablePrimary'
 import { Container, Grid } from '@mui/material'
 import { HeadingPrimary } from '../shared/typography'
+import { toast } from 'react-toastify'
 
 function OrdersList() {
   const navigate = useNavigate()
@@ -38,7 +39,12 @@ function OrdersList() {
       name: 'Delete',
       value: 'delete',
       onclick: (id) => {
-        dispatch(deleteOrderByAdmin(id))
+        if(window.confirm("Are you sure to delete?")){
+          dispatch(deleteOrderByAdmin(id))
+          .unwrap()
+          .then(()=>toast.success("Deleted successfully"))
+          .catch(error=>toast.error(error))
+        }
       }
     }
   ]

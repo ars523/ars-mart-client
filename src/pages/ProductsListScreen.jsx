@@ -22,6 +22,7 @@ import { ButtonPrimary } from '../shared/button'
 import Loader from '../component/Loader'
 import Error from '../component/Error'
 import TablePrimary from '../component/TablePrimary'
+import { toast } from 'react-toastify'
 
 function ProductsListScreen() {
   const navigate = useNavigate()
@@ -64,7 +65,14 @@ function ProductsListScreen() {
       name: 'Delete',
       value: 'delete',
       onclick: (id) => {
-        dispatch(deleteProduct(id))
+        if(window.confirm('Are you sure to delete?')){
+          dispatch(deleteProduct(id))
+          .unwrap()
+          .then(()=>{
+            toast.success('Deleted successfully')
+          })
+          .catch(error=>toast.error(error))
+        }
       }
     }
   ]
