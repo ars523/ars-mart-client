@@ -10,9 +10,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser, updateUser } from '../features/user/userSlice';
 import Loader from '../component/Loader';
+import Error from '../component/Error';
+import { toast } from 'react-toastify';
 
 const UserEditScreen = () => {
-    const { userEdit, isLoading } = useSelector((state) => state.user)
+    const { userEdit, isLoading, isError, error} = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const { id } = useParams()
 
@@ -29,6 +31,9 @@ const UserEditScreen = () => {
         onSubmit: (values) => {
             const {name, email, isAdmin } = values
             dispatch(updateUser({id, name, email, isAdmin}))
+            .unwrap()
+            .then(()=>toast.success('Updated successfully'))
+            .catch(error=>toast.error(error))
         },
         enableReinitialze: true,
 
@@ -46,8 +51,13 @@ const UserEditScreen = () => {
                 isAdmin: userEdit.isAdmin
             })
         }
+        // eslint-disable-next-line
     }, [userEdit])
     const { values, errors, touched } = formik
+
+    if(isError){
+        <Error message={error}/>
+    }
     return (
         <Container maxWidth='sm'>
             <Grid container component='form' spacing={3} onSubmit={formik.handleSubmit}>

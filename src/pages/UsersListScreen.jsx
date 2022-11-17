@@ -28,12 +28,14 @@ const UsersListScreen = () => {
     const actions = [
         {
             name: 'Edit',
+            value: 'edit',
             onclick: (id)=>{
                 navigate(`/admin/users/${id}`)
             }
         },
         {
             name: 'Delete',
+            value: 'delete',
             onclick: (id)=>{
                 dispatch(deleteUser(id))
             }

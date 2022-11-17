@@ -3,17 +3,18 @@ import { Container } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getProductEdit, resetProductEdit, updateProduct, uploadProductImageFile } from '../features/products/productSlice'
 import { ButtonPrimary } from '../shared/button'
 import { HeadingPrimary } from '../shared/typography'
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { toast } from 'react-toastify'
+import Loader from '../component/Loader' 
+import Error from '../component/Error'
 function ProductEditScreen() {
-    const navigate = useNavigate()
     const { id } = useParams()
     const dispatch = useDispatch()
-    const {productEdit, isLoading} = useSelector((state) => state.product)
+    const {productEdit, isLoading, isUploading, isError, error} = useSelector((state) => state.product)
 
     const [inputData, setInputData] = useState({
         name: '',
@@ -52,6 +53,9 @@ function ProductEditScreen() {
         const bodyFormData = new FormData();
         bodyFormData.append('file', file);
         dispatch(uploadProductImageFile(bodyFormData))
+        .unwrap()
+        .then(()=>toast.success('Uploaded successfully'))
+        .catch((error)=>toast.error(error))
     }
 
     const handleFormSubmit = (e) => {
@@ -63,9 +67,15 @@ function ProductEditScreen() {
         }
         dispatch(updateProduct(updatedData))
             .unwrap()
-            .then((res) => navigate(`/admin/productlist`))
+            .then((res) => toast.success('Updated successfully'))
+            .catch((error)=>toast.error(error))
     }
-
+    if(isLoading){
+        return <Loader/>
+    }
+    if(isError){
+        return <Error message={error}/>
+    }
     return (
         <Container>
             <Grid
@@ -126,7 +136,7 @@ function ProductEditScreen() {
                 </Grid>
                 <Grid item>
                     {
-                        isLoading
+                        isUploading
                         ? <CircularProgress />
                         :<TextField
                         fullWidth

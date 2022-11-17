@@ -2,16 +2,39 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../component/Loader'
-import Order from '../component/Order'
 import Error from '../component/Error'
 import { getOrderHistory} from '../features/order/orderSlice'
+import { useNavigate } from 'react-router-dom'
+import { Container, Grid } from '@mui/material'
+import { HeadingPrimary } from '../shared/typography'
+import TablePrimary from '../component/TablePrimary'
 function OrderHistoryScreen() {
   const {ordersHistory, isLoading, isError, error} = useSelector(state => state.order)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getOrderHistory())
   }, [dispatch])
+
+  const columns = [
+    { heading: 'Id', value: '_id' },
+    { heading: 'Date', value: 'createdAt' },
+    { heading: 'Total', value: 'totalPrice' },
+    { heading: 'Paid', value: 'isPaid' },
+    { heading: 'Delivered', value: 'isDelivered' },
+    { heading: 'Actions', value: 'actions' }
+  ]
+
+  const actions = [
+    {
+      name: 'Details',
+      value: 'details',
+      onclick: (id) => {
+        navigate(`/order/${id}`)
+      }
+    }
+  ]
 
   if(isLoading){
     return <Loader/>
@@ -23,9 +46,18 @@ function OrderHistoryScreen() {
     return <Error message='No order found'/>
   }
   return (
-    <>
-      <Order orderData={ordersHistory} page='orderHistory'/>
-    </>
+    <Container>
+      <Grid container>
+        <Grid item xs={12}>
+          <HeadingPrimary variant='h4' sx={{ color: 'grey.900' }}>
+            Order History
+          </HeadingPrimary>
+        </Grid>
+        <Grid item xs={12}>
+          <TablePrimary data={ordersHistory} columns={columns} actions={actions} />
+        </Grid>
+      </Grid>
+    </Container>
   )
 }
 

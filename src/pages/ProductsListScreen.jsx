@@ -15,19 +15,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
+  Grid
 } from '@mui/material'
 import { HeadingPrimary } from '../shared/typography'
 import { ButtonPrimary } from '../shared/button'
 import Loader from '../component/Loader'
 import Error from '../component/Error'
+import TablePrimary from '../component/TablePrimary'
 
 function ProductsListScreen() {
   const navigate = useNavigate()
@@ -49,10 +43,31 @@ function ProductsListScreen() {
     }
   }, [dispatch, isSuccess])
 
-  const cellText = {
-    color: 'grey.900',
-    fontWeight: '400'
-  }
+  const columns = [
+    { heading: 'Id', value: '_id' },
+    { heading: 'Name', value: 'name' },
+    { heading: 'Price', value: 'price' },
+    { heading: 'Category', value: 'category' },
+    { heading: 'Brand', value: 'brand' },
+    { heading: 'Actions', value: 'actions' }
+  ]
+
+  const actions = [
+    {
+      name: 'Edit',
+      value: 'edit',
+      onclick: (id) => {
+        navigate(`/admin/product/${id}`)
+      }
+    },
+    {
+      name: 'Delete',
+      value: 'delete',
+      onclick: (id) => {
+        dispatch(deleteProduct(id))
+      }
+    }
+  ]
 
   const [open, setOpen] = React.useState(false);
 
@@ -71,22 +86,14 @@ function ProductsListScreen() {
       .then((res) => navigate(`/admin/product/${res._id}`))
   }
 
-  const handleEdit = (id) => {
-    navigate(`/admin/product/${id}`)
-  }
-
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id))
-  }
-
   if (isLoading) {
     return <Loader />
   }
   else if (isError) {
     return <Error message={error} />
   }
-  else if(products?.length===0){
-    return <Error message='No product found'/>
+  else if (products?.length === 0) {
+    return <Error message='No product found' />
   }
   return (
     <Container>
@@ -123,75 +130,9 @@ function ProductsListScreen() {
               </Button>
             </DialogActions>
           </Dialog>
-
         </Grid>
         <Grid item>
-          <TableContainer>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow sx={{ borderBottom: '2px solid #333' }}>
-                  <TableCell><Typography variant='h6'>ID</Typography></TableCell>
-                  <TableCell><Typography variant='h6'>Name</Typography></TableCell>
-                  <TableCell><Typography variant='h6'>Price</Typography></TableCell>
-                  <TableCell><Typography variant='h6'>Category</Typography></TableCell>
-                  <TableCell><Typography variant='h6'>Brand</Typography></TableCell>
-                  <TableCell><Typography variant='h6'>Actions</Typography></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products?.map((row) => (
-                  <TableRow
-                    key={row.name}
-                  >
-                    <TableCell component="th" scope="row">
-                      <Typography variant='h6' sx={cellText}>
-                        {row._id}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant='h6' sx={cellText}>
-                        {row.name}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant='h6' sx={cellText}>
-                        ${row.price}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant='h6' sx={cellText}>
-                        {row.category}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant='h6' sx={cellText}>
-                        {row.brand}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant='contained'
-                        size='small'
-                        onClick={() => handleEdit(row._id)}
-                        sx={{ mr: '8px' }}
-                      >
-                        Edit
-                      </Button>
-
-                      <Button
-                        size='small'
-                        variant='contained'
-                        color='error'
-                        onClick={() => handleDelete(row._id)}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <TablePrimary data={products} columns={columns} actions={actions} />
         </Grid>
         <Grid item sx={{ mt: '1rem' }}>
           {

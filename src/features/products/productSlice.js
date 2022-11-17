@@ -6,7 +6,8 @@ const initialState = {
     product: {},
     productList: [],
     productEdit: {},
-    isLoading: true,
+    isLoading: false,
+    isUploading: false,
     isSuccess: false,
     isError: false,
     error: ''
@@ -248,19 +249,32 @@ export const productSlice = createSlice({
                 state.error = action.payload
             })
             .addCase(uploadProductImageFile.pending, (state)=>{
-                state.isLoading = true
+                state.isUploading = true
                 state.isSuccess = false
                 state.isError = false
                 state.error = ''
             })
             .addCase(uploadProductImageFile.fulfilled, (state, {payload})=>{
-                state.isLoading = false
+                state.isUploading = false
                 state.isSuccess = true
                 state.productEdit = payload.secure_url? {...state.productEdit, image: payload.secure_url}:state.productEdit
                 state.isError = false
                 state.error = ''
             })
             .addCase(uploadProductImageFile.rejected, (state, action) => {
+                state.isUploading = false
+                state.isSuccess = false
+                state.isError = true
+                state.error = action.payload
+            })
+            .addCase(updateProduct.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+            })
+            .addCase(updateProduct.rejected, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = false
                 state.isError = true

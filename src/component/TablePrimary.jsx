@@ -34,7 +34,7 @@ const TablePrimary = ({ data, columns, actions }) => {
                         >
                             {
                                 columns.map((cellData, index) => (
-                                    <TableCell key={row._id + row[cellData.value]}>
+                                    <TableCell key={Math.random().toString()}>
                                         <CellData
                                             rowData={row}
                                             cellData={cellData}
@@ -66,17 +66,22 @@ const CellData = ({ rowData, cellData, actions }) => {
     if (cellData.value === 'actions') {
         const buttons = actions.map((action) => (
             <Button
-                key={action.name}
+                key={action.value + rowData._id}
                 onClick={() => action.onclick(rowData._id)}
                 variant='contained'
                 size='small'
-                color={action.name === 'Delete' ? 'error' : 'primary'}
+                color={action.value === 'delete' ? 'error' : 'primary'}
                 sx={{ mr: '0.5rem' }}
             >
                 {action.name}
             </Button>
         ))
         return buttons
+    }
+    if (cellData.value === "createdAt") {
+        return <Typography variant='h6' sx={cellText}>
+            {rowData[cellData.value].slice(0, 10)}
+        </Typography>
     }
     return <Typography variant='h6' sx={cellText}>
         {rowData[cellData.value]}
