@@ -88,7 +88,7 @@ const Header = () => {
                         onClick={() => navigate('/carts')}
                     >
                         <StyledBadge
-                            badgeContent={carts.reduce((a, i) => a + i.quantity, 0)}
+                            badgeContent={carts.length}
                             sx={{ color: 'black' }}
                         >
                             <ShoppingCartIcon sx={{ color: 'black' }} />
