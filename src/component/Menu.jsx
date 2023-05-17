@@ -18,10 +18,7 @@ export default function Menu({ name, menuItems }) {
         <>
             <Button
                 sx={{
-                    color: 'black',
                     textTransform: 'none',
-                    fontSize: '16px',
-                    letterSpacing: '1px'
                 }}
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
@@ -31,7 +28,7 @@ export default function Menu({ name, menuItems }) {
                 variant='outlined'
             >
                 {name}
-                <ArrowDropDownIcon />
+                <ArrowDropDownIcon color='primary' />
             </Button>
             <MuiMenu
                 id="basic-menu"

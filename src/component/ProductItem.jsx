@@ -1,19 +1,26 @@
-import { Box, Paper, Rating, Typography, Stack } from '@mui/material';
+import { Box, Paper, Rating, Typography, Stack, useTheme } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { addCart } from '../features/cart/cartSlice';
 import { ButtonPrimary } from '../shared/button';
-import { LinkPrimary } from '../shared/link';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const ProductItem = ({ product }) => {
 
     const { carts } = useSelector(state => state.cart)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const theme = useTheme();
 
-    const handleAddCart = async (cartItem) => {
+    const checkProductExistanceInCart = (cartItem)=>{
         const isExist = carts.find(cart => cart._id === cartItem._id)
+        return isExist;
+    }
+    const handleAddCart = async (cartItem) => {
+        const isExist = checkProductExistanceInCart(cartItem)
         const quantity = isExist ? isExist.quantity + 1 : 1;
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${cartItem.slug}`)
         const stock = res.data.countInStock
@@ -25,37 +32,79 @@ const ProductItem = ({ product }) => {
     }
 
     return (
-        <Paper variant='outlined'>
-            <Link to={`/product/${product.slug}`}>
-                <img src={product.image} alt={product.name} style={{ width: '100%' }} />
-            </Link>
+        <Paper
+            onClick={() => navigate(`/product/${product.slug}`)}
+            variant='outlined'
+            sx={{
+                cursor: 'pointer',
+                transition: 'all 0.3s ease-in-out',
+                '&:hover': {
+                    transform: 'scale(1.04)',
+                }
+            }}
+        >
+
+            <img src={product.image} alt={product.name} style={{ width: '100%' }} />
+
             <Stack sx={{ p: '1rem' }} spacing={1}>
-                <LinkPrimary to={`/product/${product.slug}`}>
-                    <Typography variant='h6'>{product.name}</Typography>
-                </LinkPrimary>
-                <Stack direction='row' spacing={1} alignItems='center'>
-                    <Rating value={product.rating} precision={0.5} readOnly></Rating>
-                    <Typography variant='h6' sx={{ color: 'primary.main' }}>{product.numReviews} reviews</Typography>
+                <Typography
+                    variant='h6'
+                    sx={{
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                    }}
+                >
+                    {product.name}
+                </Typography>
+                <Stack
+                    direction='row'
+                    spacing={1}
+                    alignItems='center'
+                    style={{marginBottom:'1rem'}}
+                >
+                    <Rating
+                        value={product.rating}
+                        precision={0.5} readOnly
+                        size='small'
+                        sx={{
+                            "& .MuiRating-iconFilled": {
+                                color: `${theme.palette.primary.main}`
+                            },
+                        }}
+                    />
+                    <Typography variant='subtitle2' sx={{ color: 'GrayText' }}>{product.numReviews} reviews</Typography>
                 </Stack>
-                <Typography sx={{ fontWeight: '500' }}>${product.price}</Typography>
-                <Box>
-                    {
-                        product.countInStock === 0
-                            ? (
-                                <ButtonPrimary disabled>Out of Stock</ButtonPrimary>
-                            )
-                            : (
-                                <ButtonPrimary
-                                    onClick={() => handleAddCart(product)}
+                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                    <Typography variant='subtitle1'>${product.price}</Typography>
+                    <Box>
+                        {
+                            product.countInStock === 0
+                                ? (
+                                    <ButtonPrimary disabled>Out of Stock</ButtonPrimary>
+                                ):
+                                checkProductExistanceInCart(product)?
+                                (<ButtonPrimary
                                     variant='contained'
+                                    startIcon={<CheckCircleIcon/>}
+                                    onClick={(event) => { navigate('/carts'); event.stopPropagation() }}
                                 >
-                                    Add to cart
-                                </ButtonPrimary>
-                            )
-                    }
-                </Box>
+                                    Added in Cart
+                                </ButtonPrimary>)
+                                : (
+                                    <ButtonPrimary
+                                        startIcon={<ShoppingCartIcon />}
+                                        onClick={(event) => { handleAddCart(product); event.stopPropagation() }}
+                                        variant='contained'
+                                    >
+                                        Add to Cart
+                                    </ButtonPrimary>
+                                )
+                        }
+                    </Box>
+                </Stack>
             </Stack>
-        </Paper>
+        </Paper >
     );
 };
 

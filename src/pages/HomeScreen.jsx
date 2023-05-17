@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Container} from '@mui/material'
+import { Grid, Container, Box} from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
 import { getProducts} from '../features/products/productSlice';
@@ -22,9 +22,9 @@ const HomeScreen = () => {
                 ?(<Loader/>) 
                 :isError
                 ?(<Error message={error}/>)
-                :(<Grid container direction='column' spacing={4}>
+                :(<Grid container direction='column' spacing={4} sx={{mb:'3rem'}}>
                     <Grid item>
-                        <HeadingPrimary sx={{ mb: '0.5rem' }} variant='h4'>
+                        <HeadingPrimary variant='h5'>
                             Featured Products
                         </HeadingPrimary>
                     </Grid>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
@@ -44,19 +44,19 @@ const Header = () => {
     const adminItems = [
         {
             item: 'Dashboard',
-            onclick: ()=>navigate('/admin/dashboard')
+            onclick: () => navigate('/admin/dashboard')
         },
         {
             item: 'Products',
-            onclick: ()=>navigate('/admin/productlist')
+            onclick: () => navigate('/admin/productlist')
         },
         {
             item: 'Orders',
-            onclick: ()=>navigate('/admin/orders')
+            onclick: () => navigate('/admin/orders')
         },
         {
             item: 'Users',
-            onclick: ()=>navigate('/admin/users')
+            onclick: () => navigate('/admin/users')
         }
     ]
     const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -68,51 +68,52 @@ const Header = () => {
         },
     }));
     return (
-        <Box>
-            <AppBar>
-                <Toolbar>
-                    <Link to='/' style={{ textDecoration: 'none' }}>
-                        <Typography
-                            variant='h5'
-                            sx={{
-                                letterSpacing: '2px',
-                                fontWeight: '600px',
-                                color: 'black'
-                            }}
-                        >
-                            arsmart
-                        </Typography>
-                    </Link>
-                    <IconButton
-                        aria-label="cart"
-                        onClick={() => navigate('/carts')}
+
+        <AppBar sx={{ background: '#fff' }} elevation={1}>
+            <Toolbar>
+                <Link to='/' style={{ textDecoration: 'none' }}>
+                    <Typography
+                        variant='h5'
+                        color='primary'
+                        sx={{
+                            letterSpacing: '2px',
+                            fontWeight: '700px',
+                        }}
                     >
-                        <StyledBadge
-                            badgeContent={carts.length}
-                            sx={{ color: 'black' }}
+                        ars-mart
+                    </Typography>
+                </Link>
+                <Box component='div' sx={{ ml: 'auto' }}>
+                    <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                        <IconButton
+                            aria-label="cart"
+                            onClick={() => navigate('/carts')}
                         >
-                            <ShoppingCartIcon sx={{ color: 'black' }} />
-                        </StyledBadge>
-                    </IconButton>
-                    <Box component='div' sx={{ ml: 'auto' }}>
+                            <StyledBadge
+                                badgeContent={carts.length}
+                                color='primary'
+                            >
+                                <ShoppingCartIcon color='primary' />
+                            </StyledBadge>
+                        </IconButton>
                         {
                             isLoggedIn
                                 ? (
-                                    <Menu name={user?.name} menuItems={userItems} />
+                                    <Menu name={user?.name?.split(' ')[0]} menuItems={userItems} />
                                 ) : (
-                                    <Button onClick={handleLogin} sx={{ color: 'black' }}>Sign In</Button>
+                                    <Button onClick={handleLogin} variant='outlined'>Sign In</Button>
                                 )
                         }
                         {
                             (isLoggedIn && admin) &&
-                                (
-                                    <Menu name={'Admin'} menuItems={adminItems} />
-                                )
+                            (
+                                <Menu name={'Admin'} menuItems={adminItems} />
+                            )
                         }
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                    </Stack>
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 };
 
