@@ -7,11 +7,12 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ButtonPrimary } from '../shared/button';
 import { HeadingPrimary } from '../shared/typography';
-import { addCart, deleteCart, subtractCart } from '../features/cart/cartSlice';
+import { increaseQuantity, deleteCart, subtractCart } from '../features/cart/cartSlice';
 import { LinkPrimary } from '../shared/link';
+import { toast } from 'react-toastify';
 
 const CartScreen = () => {
     const dispatch = useDispatch()
@@ -24,9 +25,9 @@ const CartScreen = () => {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${cartItem.slug}`)
         const stock = res.data.countInStock
         if (stock >= quantity) {
-            dispatch(addCart(cartItem))
+            dispatch(increaseQuantity(cartItem))
         } else {
-            console.log('Out of stock')
+            toast.error('Out of stock')
         }
     }
 
@@ -41,7 +42,12 @@ const CartScreen = () => {
         <Container>
             <Grid container direction='column'>
                 <Grid item>
-                    <HeadingPrimary variant='h4' sx={{ p: '0.25rem' }}>Shopping Cart</HeadingPrimary>
+                    <HeadingPrimary
+                        variant='h5'
+                        sx={{ mb: '1rem' }}
+                    >
+                        Shopping Cart
+                    </HeadingPrimary>
                 </Grid>
                 {carts.length > 0 ?
                     (<Grid item>
@@ -84,7 +90,7 @@ const CartScreen = () => {
                                                             </TableCell>
                                                             <TableCell>
                                                                 <IconButton onClick={() => handleDeteCart(cart._id)}>
-                                                                    <DeleteIcon />
+                                                                    <DeleteIcon color="error" />
                                                                 </IconButton>
                                                             </TableCell>
                                                         </TableRow>
@@ -98,20 +104,34 @@ const CartScreen = () => {
                             <Grid item md={4} xs={12}> {/*<----Checkout---->*/}
                                 <Paper variant='outlined' sx={{ p: '1rem' }}>
                                     <Box sx={{ borderBottom: '1px solid #ddd' }}>
-                                        <Typography variant='h4' sx={{ p: '1rem 1rem' }}>
-                                            Subtotal
-                                            {`(${carts.reduce((a, i) => a + i.quantity, 0)} items) : $${carts.reduce((a, i) => a + (i.price * i.quantity), 0)}`}
+                                        <Typography variant='subtitle2' align='center' sx={{ pb: '0.5rem' }}>
+                                            {`${carts.reduce((a, i) => a + i.quantity, 0)} items in your Cart`}
                                         </Typography>
                                     </Box>
-                                    <Box sx={{ p: '1rem 0  0 0.5rem' }}>
-                                        <ButtonPrimary
-                                            variant='contained'
-                                            fullWidth
-                                            onClick={() => navigate('/shipping')}
-                                        >
-                                            Proceed to Checkout
-                                        </ButtonPrimary>
-                                    </Box>
+                                    <Stack
+                                        sx={{
+                                            borderBottom: '1px solid #ddd',
+                                            padding: '0.5rem',
+                                        }}
+                                        direction={'row'}
+                                        justifyContent={'space-between'}
+                                        alignItems={'centre'}
+                                    >
+                                        <Typography variant='subtitle2'>
+                                            Subtotal:
+                                        </Typography>
+                                        <Typography variant='body2'>
+                                            {`$${carts.reduce((a, i) => a + (i.price * i.quantity), 0)}`}
+                                        </Typography>
+                                    </Stack>
+                                    <ButtonPrimary
+                                        sx={{mt:'1rem'}}
+                                        variant='contained'
+                                        fullWidth
+                                        onClick={() => navigate('/shipping')}
+                                    >
+                                        Proceed to Checkout
+                                    </ButtonPrimary>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -119,8 +139,8 @@ const CartScreen = () => {
                     (
                         <Paper variant='outlined' sx={{ p: '1rem', mt: '1rem' }}>
                             <Typography
-                                variant= {'h6'} 
-                                sx={{ color: 'error.main'}}
+                                variant={'h6'}
+                                sx={{ color: 'error.main' }}
                             >
                                 No items available
                             </Typography>

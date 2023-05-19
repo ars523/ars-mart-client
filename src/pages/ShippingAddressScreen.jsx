@@ -34,17 +34,17 @@ const ShippingAddressScreen = () => {
     }
 
     return (
-        <Grid container direction='column' spacing={3}>
+        <Grid container direction='column' spacing={'2rem'}>
             <Grid item> {/* <--- Stepper ---> */}
                 <Container>
                     <Steapper activeStep={1}></Steapper>
                 </Container>
             </Grid>
             <Grid item> {/* <--- Shipping address form ---> */}
-                <Container maxWidth='sm' component={'form'} onSubmit={handleShippingAddressSubmit}>
+                <Container component={'form'} onSubmit={handleShippingAddressSubmit}>
                     <Grid container direction='column' spacing={3}>
                         <Grid item>
-                            <HeadingPrimary variant='h4'>Shipping Address</HeadingPrimary>
+                            <HeadingPrimary variant='h5'>Shipping Address</HeadingPrimary>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField

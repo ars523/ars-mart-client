@@ -19,13 +19,12 @@ const ProductItem = ({ product }) => {
         const isExist = carts.find(cart => cart._id === cartItem._id)
         return isExist;
     }
+    
     const handleAddCart = async (cartItem) => {
-        const isExist = checkProductExistanceInCart(cartItem)
-        const quantity = isExist ? isExist.quantity + 1 : 1;
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${cartItem.slug}`)
         const stock = res.data.countInStock
-        if (quantity <= stock) {
-            dispatch(addCart(cartItem))
+        if (stock>=1) {
+            dispatch(addCart({product: cartItem, quantity: 1}))
         } else {
             console.log('Out of stock')
         }
@@ -46,10 +45,14 @@ const ProductItem = ({ product }) => {
 
             <img src={product.image} alt={product.name} style={{ width: '100%' }} />
 
-            <Stack sx={{ p: '1rem' }} spacing={1}>
+            <Stack sx={{ p: '1rem' }} spacing={'0.5rem'} justifyContent={'center'}>
+                <Typography variant='caption' sx={{textTransform:'uppercase'}}>
+                    {product?.brand}
+                </Typography>
                 <Typography
-                    variant='h6'
+                    variant='subtitle1'
                     sx={{
+                        textTransform:'capitalize',
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -81,7 +84,7 @@ const ProductItem = ({ product }) => {
                         {
                             product.countInStock === 0
                                 ? (
-                                    <ButtonPrimary disabled>Out of Stock</ButtonPrimary>
+                                    <ButtonPrimary variant='contained' disabled>Out of Stock</ButtonPrimary>
                                 ):
                                 checkProductExistanceInCart(product)?
                                 (<ButtonPrimary

@@ -16,9 +16,9 @@ export const cartSlice = createSlice({
     initialState,
     reducers: {
         addCart: (state, action) => {
-            const isExist = state.carts.find(cart => cart._id === action.payload._id)
-            const quantity = isExist? isExist.quantity+1: 1
-            const newItem = {...action.payload, quantity}
+            const isExist = state.carts.find(cart => cart._id === action.payload?.product._id)
+            const quantity = action.payload?.quantity
+            const newItem = {...action.payload.product, quantity}
             if (isExist) {
                 const carts = state.carts.map(c => c._id === newItem._id ? newItem : c)
                 localStorage.setItem('carts', JSON.stringify(carts))
@@ -36,6 +36,13 @@ export const cartSlice = createSlice({
             state.carts = carts
         },
 
+        increaseQuantity: (state, action) =>{
+            const carts = state.carts.map(cart=>cart._id === action.payload._id? {...cart, quantity: cart.quantity+1}: cart)
+            localStorage.setItem('carts', JSON.stringify(carts))
+            state.carts = carts
+        },
+        
+
         deleteCart: (state, action) =>{
             const carts = state.carts.filter(cart=>cart._id!==action.payload)
             localStorage.setItem('carts', JSON.stringify(carts))
@@ -50,7 +57,6 @@ export const cartSlice = createSlice({
             state.paymentMethod = action.payload
         },
         resert: (state)=>{
-            state.carts = []
             state.shippingAddress = {}
             state.paymentMethod = ''
         },
@@ -65,6 +71,7 @@ export const cartSlice = createSlice({
 
 export const { 
     addCart,
+    increaseQuantity,
     subtractCart,
     deleteCart, 
     saveShippingAddress,

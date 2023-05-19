@@ -8,43 +8,41 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { HeadingPrimary } from '../shared/typography';
 import { ButtonPrimary } from '../shared/button';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { savePaymentMethod } from '../features/cart/cartSlice';
 
 function PaymentMethodScreen() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const {paymentMethod, shippingAddress} = useSelector(state=>state.cart)
+  const { paymentMethod, shippingAddress } = useSelector(state => state.cart)
   const [value, setValue] = React.useState(paymentMethod || '');
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  useEffect(()=>{
-    if(!shippingAddress){
+  useEffect(() => {
+    if (!shippingAddress) {
       navigate('/shipping')
     }
   }, [navigate, shippingAddress])
 
-  const handleClickContinue = ()=>{
+  const handleClickContinue = () => {
     dispatch(savePaymentMethod(value))
     navigate('/previewOrder')
   }
 
   return (
-    <Grid container direction='column' spacing={3}>
-      <Grid item> {/* <--- Stepper ---> */}
-        <Container >
+    <Container>
+      <Grid container direction='column' spacing={'2rem'}>
+        <Grid item> {/* <--- Stepper ---> */}
           <OrderStepper activeStep={2} />
-        </Container>
-      </Grid>
-      <Grid item> {/* <--- Payment Method Selection ---> */}
-        <Container maxWidth='sm'>
-          <Grid container direction='column' spacing={1}>
+        </Grid>
+        <Grid item> {/* <--- Payment Method Selection ---> */}
+          <Grid container direction='column' spacing={'1rem'}>
             <Grid item>
-              <HeadingPrimary variant='h4'>Payment Method</HeadingPrimary>
+              <HeadingPrimary variant='h5'>Payment Method</HeadingPrimary>
             </Grid>
             <Grid item>
               <FormControl>
@@ -62,17 +60,15 @@ function PaymentMethodScreen() {
             <Grid item>
               <ButtonPrimary
                 variant='contained'
-                size='small'
                 onClick={handleClickContinue}
               >
                 Continue
               </ButtonPrimary>
             </Grid>
-
           </Grid>
-        </Container>
+        </Grid>
       </Grid>
-    </Grid>
+    </Container>
   )
 }
 

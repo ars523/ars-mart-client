@@ -9,7 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom'
 import { ButtonPrimary } from '../shared/button'
 import { resertCarts } from '../features/cart/cartSlice'
-import { orderProduct} from '../features/order/orderSlice'
+import { orderProduct } from '../features/order/orderSlice'
 import OrderSummery from '../component/OrderSummery'
 import { toast } from 'react-toastify'
 
@@ -35,39 +35,39 @@ function OrderPreviewScreen() {
             taxPrice: taxPrice,
             totalPrice: totalPrice,
         }))
-        .unwrap()
-        .then((order)=>{
-            dispatch(resertCarts())
-            navigate('/order/' + order._id)
-            toast.success('Ordered succesfully')
-        })
-        .catch((error)=>toast.error(error))
+            .unwrap()
+            .then((order) => {
+                dispatch(resertCarts())
+                navigate('/order/' + order._id)
+                toast.success('Ordered succesfully')
+            })
+            .catch((error) => toast.error(error))
     }
 
     return (
         <Container>
-            <Grid container direction='column' spacing={3}>
+            <Grid container direction='column' spacing={'2rem'}>
                 {/* <---Stepper---> */}
                 <Grid item>
                     <OrderStepper activeStep={3} />
                 </Grid>
                 {/* <---Preview order container --->*/}
-                <Grid item container rowSpacing={2} sx={{ ml: matches ? '2rem' : null }}>
+                <Grid item container gap={'1rem'}>
                     <Grid item>
-                        <HeadingPrimary variant='h4'>
+                        <HeadingPrimary variant='h5'>
                             Preview Order
                         </HeadingPrimary>
                     </Grid>
-                    <Grid item container spacing={4}>
+                    <Grid item container spacing={'1rem'}>
                         {/*<---Shipping Payment Order details--> */}
-                        <Grid container item direction={'column'} xs={12} md={8} spacing={3}>
+                        <Grid container item direction={'column'} xs={12} md={8} gap={'1rem'}>
                             <Grid item>
                                 <Paper variant='outlined' sx={{ p: '1.5rem' }}>
-                                    <Typography variant='h5' sx={{ mb: '12px', fontWeight: '500' }}>Shipping</Typography>
-                                    <Typography variant='h6' sx={{ fontWeight: '400' }}>
+                                    <Typography variant='h6' sx={{ mb: '12px', fontWeight: '500' }}>Shipping</Typography>
+                                    <Typography variant='subtitle1' sx={{ fontWeight: '400' }}>
                                         <span style={{ fontWeight: '500' }}>Name:</span> {fullName}
                                     </Typography>
-                                    <Typography variant='h6' sx={{ mb: '12px', fontWeight: '400' }}>
+                                    <Typography variant='subtitle1' sx={{ mb: '12px', fontWeight: '400' }}>
                                         <span style={{ fontWeight: '500' }}>Address:</span>  {address}
                                     </Typography>
                                     <LinkPrimary to='/shipping'>
@@ -79,8 +79,8 @@ function OrderPreviewScreen() {
                             </Grid>
                             <Grid item>
                                 <Paper variant='outlined' sx={{ p: '1.5rem' }}>
-                                    <Typography variant='h5' sx={{ mb: '12px', fontWeight: '500' }}>Payment</Typography>
-                                    <Typography variant='h6' sx={{ mb: '12px', fontWeight: '400' }}>
+                                    <Typography variant='h6' sx={{ mb: '12px', fontWeight: '500' }}>Payment</Typography>
+                                    <Typography variant='subtitle1' sx={{ mb: '12px', fontWeight: '400' }}>
                                         <span style={{ fontWeight: '500' }}>Method:</span> {paymentMethod}
                                     </Typography>
                                     <LinkPrimary to='/payment'>
@@ -92,7 +92,7 @@ function OrderPreviewScreen() {
                             </Grid>
                             <Grid item>
                                 <Paper variant='outlined' sx={{ p: '1.5rem' }}>
-                                    <Typography variant='h5' sx={{ fontWeight: '500' }}>Items</Typography>
+                                    <Typography variant='h6' sx={{ fontWeight: '500' }}>Items</Typography>
                                     <Grid container rowSpacing={2} sx={{ p: '16px' }}>
                                         {
                                             carts.map(cart => (
@@ -142,8 +142,14 @@ function OrderPreviewScreen() {
                                     taxPrice={taxPrice}
                                     shippingPrice={shippingPrice}
                                 />
-                                <Box sx={{ p: '0.5rem 1rem' }}>
-                                    <ButtonPrimary variant='contained' fullWidth onClick={handlePlaceOrder}>Place Order</ButtonPrimary>
+                                <Box sx={{ p: '0.5rem 0' }}>
+                                    <ButtonPrimary
+                                        variant='contained'
+                                        fullWidth
+                                        onClick={handlePlaceOrder}
+                                    >
+                                        Place Order
+                                    </ButtonPrimary>
                                 </Box>
                             </Paper>
                         </Grid>
