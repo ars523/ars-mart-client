@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify'
 import Loader from '../component/Loader' 
 import Error from '../component/Error'
+
 function ProductEditScreen() {
     const { id } = useParams()
     const dispatch = useDispatch()
@@ -80,17 +81,16 @@ function ProductEditScreen() {
         <Container>
             <Grid
                 container
-                direction='column'
                 component='form'
-                rowSpacing={4}
+                spacing={4}
                 onSubmit={handleFormSubmit}
             >
-                <Grid item>
-                    <HeadingPrimary variant='h2' sx={{ fontWeight: 400 }}>
+                <Grid item xs={12}>
+                    <HeadingPrimary variant='h5'>
                         Edit Product <br /> {productEdit?._id}
                     </HeadingPrimary>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
                         label='Name'
@@ -101,7 +101,7 @@ function ProductEditScreen() {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
                         label='Slug'
@@ -112,7 +112,29 @@ function ProductEditScreen() {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        label='Category'
+                        size='small'
+                        placeholder='Category'
+                        value={inputData.category}
+                        name='category'
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        label='Brand'
+                        size='small'
+                        placeholder='Brand'
+                        value={inputData.brand}
+                        name='brand'
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
                         label='Price'
@@ -123,7 +145,18 @@ function ProductEditScreen() {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        label='Count In Stock'
+                        size='small'
+                        placeholder='Count In Stock'
+                        value={inputData.countInStock}
+                        name='countInStock'
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
                         label='Image File'
@@ -134,7 +167,7 @@ function ProductEditScreen() {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} md={6}>
                     {
                         isUploading
                         ? <CircularProgress />
@@ -146,42 +179,11 @@ function ProductEditScreen() {
                     />
                     }
                 </Grid>
-                <Grid item>
+                <Grid item xs={12}>
                     <TextField
                         fullWidth
-                        label='Category'
-                        size='small'
-                        placeholder='Category'
-                        value={inputData.category}
-                        name='category'
-                        onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item>
-                    <TextField
-                        fullWidth
-                        label='Brand'
-                        size='small'
-                        placeholder='Brand'
-                        value={inputData.brand}
-                        name='brand'
-                        onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item>
-                    <TextField
-                        fullWidth
-                        label='Count In Stock'
-                        size='small'
-                        placeholder='Count In Stock'
-                        value={inputData.countInStock}
-                        name='countInStock'
-                        onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item>
-                    <TextField
-                        fullWidth
+                        multiline
+                        rows={6}
                         label='Description'
                         size='small'
                         placeholder='Description'

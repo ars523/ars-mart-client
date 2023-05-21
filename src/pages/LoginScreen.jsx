@@ -55,7 +55,7 @@ const LoginScreen = () => {
         <Container maxWidth='sm' component='form' onSubmit={handleSubmit}>
             <Grid container rowSpacing={3}>
                 <Grid item xs={12}>
-                    <HeadingPrimary variant="h4">
+                    <HeadingPrimary variant="h5">
                         Login
                     </HeadingPrimary>
                 </Grid>

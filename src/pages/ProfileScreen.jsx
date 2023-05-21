@@ -35,7 +35,7 @@ function Profile() {
     <Container maxWidth='sm'>
       <Grid container component='form' rowSpacing={3} onSubmit={onSubmit}>
         <Grid item xs={12}>
-          <HeadingPrimary variant='h3'>User Profile</HeadingPrimary>
+          <HeadingPrimary variant='h5'>User Profile</HeadingPrimary>
         </Grid>
         <Grid item xs={12}>
           <TextField

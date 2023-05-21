@@ -61,7 +61,7 @@ const RegisterScreen = () => {
         <Container maxWidth='sm' sx={{ p: '30px' }}>
             <Grid container rowSpacing={2} component='form' onSubmit={handleSubmit}>
                 <Grid item xs={12}>
-                    <HeadingPrimary variant="h4">
+                    <HeadingPrimary variant="h5">
                         Sign Up
                     </HeadingPrimary>
                 </Grid>
@@ -70,7 +70,6 @@ const RegisterScreen = () => {
                         fullWidth
                         placeholder='Name'
                         label='Name'
-                        size='small'
                         name='name'
                         value={name}
                         onChange={handleChange}
@@ -84,7 +83,6 @@ const RegisterScreen = () => {
                         fullWidth
                         placeholder='Email'
                         label='Email'
-                        size='small'
                         name='email'
                         value={email}
                         onChange={handleChange}
@@ -99,7 +97,6 @@ const RegisterScreen = () => {
                         placeholder='Password'
                         label='Password'
                         type='password'
-                        size='small'
                         name='password'
                         value={password}
                         onChange={handleChange}
@@ -114,7 +111,6 @@ const RegisterScreen = () => {
                         placeholder='Confirm Password'
                         label='Confirm Password'
                         type='password'
-                        size='small'
                         name='confirmPassword'
                         value={confirmPassword}
                         onChange={handleChange}
@@ -124,7 +120,7 @@ const RegisterScreen = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button variant='contained' size='small' type='submit'>Submit</Button>
+                    <Button variant='contained' type='submit'>Submit</Button>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="subtitle1">

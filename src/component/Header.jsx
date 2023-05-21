@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth';
 import Menu from './Menu';
 import { reset, signout } from '../features/auth/authSlice';
 import { resert } from '../features/cart/cartSlice';
-
+import LoginIcon from '@mui/icons-material/Login';
 const Header = () => {
     const { isLoggedIn, admin } = useAuth()
     const { user } = useSelector(state => state.auth)
@@ -22,7 +22,7 @@ const Header = () => {
     }
     const userItems = [
         {
-            item: 'profile',
+            item: 'Profile',
             onclick: () => navigate('/profile')
         },
         {
@@ -68,23 +68,22 @@ const Header = () => {
         },
     }));
     return (
-
         <AppBar sx={{ background: '#fff' }} elevation={1}>
-            <Toolbar>
+            <Toolbar >
                 <Link to='/' style={{ textDecoration: 'none' }}>
                     <Typography
-                        variant='h5'
+                        variant='h6'
                         color='primary'
                         sx={{
                             letterSpacing: '2px',
-                            fontWeight: '700px',
+                            fontWeight: '800px',
                         }}
                     >
-                        ars-mart
+                        ARS-Fashion
                     </Typography>
                 </Link>
                 <Box component='div' sx={{ ml: 'auto' }}>
-                    <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                    <Stack direction={'row'} spacing={3} alignItems={'center'}>
                         <IconButton
                             aria-label="cart"
                             onClick={() => navigate('/carts')}
@@ -101,7 +100,13 @@ const Header = () => {
                                 ? (
                                     <Menu name={user?.name?.split(' ')[0]} menuItems={userItems} />
                                 ) : (
-                                    <Button onClick={handleLogin} variant='outlined'>Sign In</Button>
+                                    <Button
+                                        onClick={handleLogin}
+                                        variant='outlined'
+                                        startIcon={<LoginIcon/>}
+                                    >
+                                        Sign In
+                                    </Button>
                                 )
                         }
                         {

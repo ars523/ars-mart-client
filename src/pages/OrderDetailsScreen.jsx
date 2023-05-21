@@ -6,15 +6,15 @@ import { useParams } from 'react-router-dom'
 import Error from '../component/Error'
 import Loader from '../component/Loader'
 import OrderSummery from '../component/OrderSummery'
-import { getOrderById} from '../features/order/orderSlice'
+import { getOrderById } from '../features/order/orderSlice'
 import { LinkPrimary } from '../shared/link'
 import { HeadingPrimary } from '../shared/typography'
 
 function OrderDetailsScreen() {
   const dispatch = useDispatch()
   const { orderId } = useParams()
-  const {order, isLoading, isError, error} = useSelector(state => state.order)
-  const { 
+  const { order, isLoading, isError, error } = useSelector(state => state.order)
+  const {
     shippingAddress,
     paymentMethod,
     orderItems,
@@ -22,33 +22,33 @@ function OrderDetailsScreen() {
     shippingPrice,
     taxPrice,
     totalPrice } = order
-  
+
   useEffect(() => {
     dispatch(getOrderById(orderId))
   }, [orderId, dispatch])
 
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />
   }
-  if(isError){
-    return <Error message={error}/>
+  if (isError) {
+    return <Error message={error} />
   }
 
   return (
     <Container>
       <Grid container rowSpacing={2} columnSpacing={3}>
         <Grid item xs={12}>
-          <HeadingPrimary variant='h4'>Order {orderId}</HeadingPrimary>
+          <HeadingPrimary variant='h5'>Order {orderId}</HeadingPrimary>
         </Grid>
         <Grid item xs={12} md={8}>
           <Stack spacing={3}>
             {/* <---Shipping Details---> */}
             <Paper variant='outlined' sx={{ p: '1.5rem' }}>
-              <Typography variant='h5' sx={{ mb: '12px', fontWeight: '500' }}>Shipping</Typography>
-              <Typography variant='h6' sx={{ fontWeight: '400' }}>
+              <Typography variant='h6' sx={{ mb: '12px', fontWeight: '500' }}>Shipping</Typography>
+              <Typography variant='subtitle2' sx={{ mb: '12px', fontWeight: '400', textTransform: 'capitalize' }}>
                 <span style={{ fontWeight: '500' }}>Name:</span> {shippingAddress?.fullName}
               </Typography>
-              <Typography variant='h6' sx={{ mb: '12px', fontWeight: '400' }}>
+              <Typography variant='subtitle2' sx={{ mb: '1rem', fontWeight: '400', textTransform: 'capitalize' }}>
                 <span style={{ fontWeight: '500' }}>Address:</span>  {shippingAddress?.address}
               </Typography>
               <Paper elevation={0} sx={{ bgcolor: '#ffcdd2', p: '16px' }}>
@@ -57,8 +57,8 @@ function OrderDetailsScreen() {
             </Paper>
             {/* <---Payment Status */}
             <Paper variant='outlined' sx={{ p: '1.5rem' }}>
-              <Typography variant='h5' sx={{ mb: '12px', fontWeight: '500' }}>Payment</Typography>
-              <Typography variant='h6' sx={{ mb: '12px', fontWeight: '400' }}>
+              <Typography variant='h6' sx={{ mb: '12px', fontWeight: '500' }}>Payment</Typography>
+              <Typography variant='subtitle2' sx={{ mb: '12px', fontWeight: '400', textTransform: 'capitalize' }}>
                 <span style={{ fontWeight: '500' }}>Method:</span> {paymentMethod}
               </Typography>
               <Paper elevation={0} sx={{ bgcolor: '#ffcdd2', p: '16px' }}>
@@ -67,7 +67,7 @@ function OrderDetailsScreen() {
             </Paper>
             {/* <---Orders Items--->*/}
             <Paper variant='outlined' sx={{ p: '1.5rem' }}>
-              <Typography variant='h5' sx={{ fontWeight: '500', mb: '8px' }}>Items</Typography>
+              <Typography variant='h6' sx={{ fontWeight: '500', mb: '8px' }}>Items</Typography>
               <Stack spacing={2} sx={{ pl: '16px' }}>
                 {
                   orderItems?.map(cart => (

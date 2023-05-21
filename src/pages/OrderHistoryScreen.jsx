@@ -49,7 +49,7 @@ function OrderHistoryScreen() {
     <Container>
       <Grid container>
         <Grid item xs={12}>
-          <HeadingPrimary variant='h4' sx={{ color: 'grey.900' }}>
+          <HeadingPrimary variant='h5' sx={{ color: 'grey.900' }}>
             Order History
           </HeadingPrimary>
         </Grid>
