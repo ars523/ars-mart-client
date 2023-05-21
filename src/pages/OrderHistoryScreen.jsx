@@ -1,21 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../component/Loader'
 import Error from '../component/Error'
-import { getOrderHistory} from '../features/order/orderSlice'
+import { getOrderHistory } from '../features/order/orderSlice'
 import { useNavigate } from 'react-router-dom'
-import { Container, Grid } from '@mui/material'
-import { HeadingPrimary } from '../shared/typography'
+import { Container, Grid, Paper, TableContainer, TablePagination, Typography } from '@mui/material'
 import TablePrimary from '../component/TablePrimary'
 function OrderHistoryScreen() {
-  const {ordersHistory, isLoading, isError, error} = useSelector(state => state.order)
+  const { ordersHistory, isLoading, isError, error } = useSelector(state => state.order)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [page, setPage] = useState(0)
+  const [rowPerPage, setRowPerPage] = useState(10)
 
   useEffect(() => {
-    dispatch(getOrderHistory())
-  }, [dispatch])
+    dispatch(getOrderHistory({page: page + 1, pageSize: rowPerPage}))
+  }, [dispatch, page, rowPerPage])
+
+  const handlePageChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowPerPage(parseInt(event.target.value, 10));
+  }
 
   const columns = [
     { heading: 'Id', value: '_id' },
@@ -36,25 +45,35 @@ function OrderHistoryScreen() {
     }
   ]
 
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />
   }
-  else if(isError){
-    return <Error message={error}/>
+  else if (isError) {
+    return <Error message={error} />
   }
-  else if(ordersHistory.length===0){
-    return <Error message='No order found'/>
+  else if (ordersHistory.length === 0) {
+    return <Error message='No order found' />
   }
   return (
     <Container>
-      <Grid container>
+      <Grid container rowSpacing={'2rem'}>
         <Grid item xs={12}>
-          <HeadingPrimary variant='h5' sx={{ color: 'grey.900' }}>
+          <Typography variant='h5' sx={{ color: 'grey.900' }}>
             Order History
-          </HeadingPrimary>
+          </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TablePrimary data={ordersHistory} columns={columns} actions={actions} />
+          <TableContainer component={Paper}>
+            <TablePrimary data={ordersHistory.orders} columns={columns} actions={actions} />
+            <TablePagination
+              component="div"
+              count={ordersHistory?.countOrders}
+              page={page}
+              onPageChange={handlePageChangePage}
+              rowsPerPage={rowPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>
         </Grid>
       </Grid>
     </Container>

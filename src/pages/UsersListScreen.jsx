@@ -1,4 +1,4 @@
-import { Grid, Container } from '@mui/material';
+import { Grid, Container, Typography, TableContainer, Paper } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import TablePrimary from '../component/TablePrimary';
@@ -59,12 +59,14 @@ const UsersListScreen = () => {
     }
     return (
         <Container>
-            <Grid container direction='column' rowSpacing='1rem'>
-                <HeadingPrimary variant='h4' sx={{ color: 'grey.900' }}>
+            <Grid container direction='column' rowSpacing='2rem'>
+                <Typography variant='h5' sx={{ color: 'grey.900' }}>
                     Users
-                </HeadingPrimary>
+                </Typography>
                 <Grid item container justifyContent='space-between'>
-                    <TablePrimary data={users} columns={columns} actions={actions} />
+                    <TableContainer component={Paper}>
+                        <TablePrimary data={users} columns={columns} actions={actions} />
+                    </TableContainer>
                 </Grid>
             </Grid>
         </Container>

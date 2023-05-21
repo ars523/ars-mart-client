@@ -26,23 +26,23 @@ const getOrderById = async (orderId, token) => {
     return res.data
 }
 
-const getOrderHistory = async (token) => {
+const getOrderHistory = async (paginationData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const res = await axios.get(URL + 'me', config)
+    const res = await axios.get(URL + `me?page=${paginationData?.page}&pageSize=${paginationData?.pageSize}`, config)
     return res.data
 }
 
-const getAllOrders = async (token) => {
+const getAllOrders = async (paginationData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const res = await axios.get(URL+'/admin', config)
+    const res = await axios.get(URL+`/admin?page=${paginationData?.page}&pageSize=${paginationData?.pageSize}`, config)
     return res.data
 }
 

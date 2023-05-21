@@ -1,13 +1,13 @@
 import axios from 'axios'
 const URL = process.env.REACT_APP_API_URL+'/api/products'
 
-const getProductList = async (page, token) => {
+const getProductList = async (paginationData, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const res = await axios.get(URL + `/admin?page=${page}`, config)
+    const res = await axios.get(URL + `/admin?page=${paginationData?.page}&pageSize=${paginationData?.pageSize}`, config)
     return res.data
 }
 

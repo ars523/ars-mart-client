@@ -18,7 +18,7 @@ function DashboardScreen() {
 
   return (
     <Container>
-      <HeadingPrimary variant='h3' sx={{ color: '#333', mb: '2rem' }}>Dashboard</HeadingPrimary>
+      <Typography variant='h5' sx={{ color: '#333', mb: '2rem' }}>Dashboard</Typography>
       <Grid container columnSpacing={4} rowSpacing={9}>
         {order.isLoading ? <Loader /> :
           (<>
@@ -27,7 +27,7 @@ function DashboardScreen() {
                 <Typography variant='h6' sx={{ color: '#333' }}>
                   {order.ordersSummery.users && order.ordersSummery.users[0].numUsers}
                 </Typography>
-                <Typography variant='h6' sx={{ color: '#333' }}>Users</Typography>
+                <Typography variant='subtitle2' sx={{ color: '#333' }}>Users</Typography>
               </Paper>
             </Grid>
             <Grid item md={4}>
@@ -35,7 +35,7 @@ function DashboardScreen() {
                 <Typography variant='h6' sx={{ color: '#333' }}>
                   {order.ordersSummery.users && order.ordersSummery.orders[0].numOrders}
                 </Typography>
-                <Typography variant='h6' sx={{ color: '#333' }}>Orders</Typography>
+                <Typography variant='subtitle2' sx={{ color: '#333' }}>Orders</Typography>
               </Paper>
             </Grid>
             <Grid item md={4}>
@@ -43,12 +43,12 @@ function DashboardScreen() {
                 <Typography variant='h6' sx={{ color: '#333' }}>
                   ${order.ordersSummery.users && order.ordersSummery.orders[0].totalSales}
                 </Typography>
-                <Typography variant='h6' sx={{ color: '#333' }}>Orders</Typography>
+                <Typography variant='subtitle2' sx={{ color: '#333' }}>Orders</Typography>
               </Paper>
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant='h5'>Sales</Typography>
+              <Typography variant='subtitle1'>Sales</Typography>
               <ResponsiveContainer width='100%' height={400}>
                 <AreaChart
                   data={order.ordersSummery.dailyOrders}
@@ -75,7 +75,7 @@ function DashboardScreen() {
             </Grid>
 
             <Grid item xs={12}>
-            <Typography variant='h5'>Category</Typography>
+            <Typography variant='subtitle1'>Category</Typography>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie

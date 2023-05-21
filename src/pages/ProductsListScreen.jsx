@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createProduct,
@@ -15,28 +15,29 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid
+  Grid,
+  Paper,
+  TableContainer,
+  Typography,
+  TablePagination
 } from '@mui/material'
-import { HeadingPrimary } from '../shared/typography'
-import { ButtonPrimary } from '../shared/button'
 import Loader from '../component/Loader'
 import Error from '../component/Error'
 import TablePrimary from '../component/TablePrimary'
 import { toast } from 'react-toastify'
+import AddIcon from '@mui/icons-material/Add';
 
 function ProductsListScreen() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  const page = queryParams.get("page") || 1
-  const pages = useSelector(state => state.product.productList.pages) || 1
-  const { products } = useSelector(state => state.product.productList)
+  const [page, setPage] = useState(0)
+  const [rowPerPage, setRowPerPage] = useState(10)
+  const { products, countProducts } = useSelector(state => state.product.productList)
   const { isLoading, isError, error, isSuccess } = useSelector(state => state.product)
 
   useEffect(() => {
-    dispatch(getProductList(page))
-  }, [page, dispatch])
+    dispatch(getProductList({page: page + 1, pageSize: rowPerPage}))
+  }, [page, dispatch, rowPerPage])
 
   useEffect(() => {
     if (isSuccess) {
@@ -65,13 +66,13 @@ function ProductsListScreen() {
       name: 'Delete',
       value: 'delete',
       onclick: (id) => {
-        if(window.confirm('Are you sure to delete?')){
+        if (window.confirm('Are you sure to delete?')) {
           dispatch(deleteProduct(id))
-          .unwrap()
-          .then(()=>{
-            toast.success('Deleted successfully')
-          })
-          .catch(error=>toast.error(error))
+            .unwrap()
+            .then(() => {
+              toast.success('Deleted successfully')
+            })
+            .catch(error => toast.error(error))
         }
       }
     }
@@ -94,6 +95,14 @@ function ProductsListScreen() {
       .then((res) => navigate(`/admin/product/${res._id}`))
   }
 
+  const handlePageChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowPerPage(parseInt(event.target.value, 10));
+  }
+
   if (isLoading) {
     return <Loader />
   }
@@ -105,18 +114,21 @@ function ProductsListScreen() {
   }
   return (
     <Container>
-      <Grid container direction='column' rowSpacing='1rem'>
+      <Grid container direction='column' rowSpacing='2rem'>
         <Grid item container justifyContent='space-between'>
-          <HeadingPrimary variant='h4' sx={{ color: 'grey.900' }}>
+          <Typography variant='h5' sx={{ color: 'grey.900' }}>
             Products
-          </HeadingPrimary>
-          <ButtonPrimary
+          </Typography>
+          <Button
+            startIcon={<AddIcon />}
             variant='contained'
             size='small'
             onClick={handleClickOpen}
           >
             Create Product
-          </ButtonPrimary>
+          </Button>
+
+          {/* <--Dialog to create product start--> */}
           <Dialog
             open={open}
             onClose={handleClose}
@@ -138,30 +150,23 @@ function ProductsListScreen() {
               </Button>
             </DialogActions>
           </Dialog>
+          {/* <--Dialog to create product start--> */}
         </Grid>
+
         <Grid item>
-          <TablePrimary data={products} columns={columns} actions={actions} />
-        </Grid>
-        <Grid item sx={{ mt: '1rem' }}>
-          {
-            [...Array(pages).keys()].map((x) => (
-              <Link
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: x + 1 === Number(page) ? 'bold' : null,
-                  padding: '8px'
-                }}
-                to={`/admin/productlist?page=${x + 1}`}
-                key={Math.random()}
-              >
-                {x + 1}
-              </Link>
-            ))
-          }
+          <TableContainer component={Paper}>
+            <TablePrimary data={products} columns={columns} actions={actions} />
+            <TablePagination
+              component="div"
+              count={countProducts}
+              page={page}
+              onPageChange={handlePageChangePage}
+              rowsPerPage={rowPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>
         </Grid>
       </Grid>
-
-
     </Container>
   )
 }

@@ -15,11 +15,11 @@ const TablePrimary = ({ data, columns, actions }) => {
         <TableContainer>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
-                    <TableRow sx={{ borderBottom: '2px solid #333' }}>
+                    <TableRow>
                         {
                             columns.map(column => (
                                 <TableCell key={column.heading + 'title'}>
-                                    <Typography variant='h6'>
+                                    <Typography variant='subtitle1'>
                                         {column.heading}
                                     </Typography>
                                 </TableCell>
@@ -58,7 +58,7 @@ const CellData = ({ rowData, cellData, actions }) => {
         fontWeight: '400'
     }
     if (typeof (rowData[cellData.value]) === "boolean") {
-        return <Typography variant='h6' sx={cellText}>
+        return <Typography variant='body1' sx={cellText}>
             {rowData[cellData.value] ? 'Yes' : 'No'}
         </Typography>
     }
@@ -79,11 +79,11 @@ const CellData = ({ rowData, cellData, actions }) => {
         return buttons
     }
     if (cellData.value === "createdAt") {
-        return <Typography variant='h6' sx={cellText}>
+        return <Typography variant='body1' sx={cellText}>
             {rowData[cellData.value].slice(0, 10)}
         </Typography>
     }
-    return <Typography variant='h6' sx={cellText}>
+    return <Typography variant='body1' sx={cellText}>
         {rowData[cellData.value]}
     </Typography>
 }

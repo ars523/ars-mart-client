@@ -27,10 +27,10 @@ export const getProducts = createAsyncThunk(
 
 export const getProductList = createAsyncThunk(
     'product/getProductList',
-    async (page, thunkApi) => {
+    async (paginationData, thunkApi) => {
         const token = thunkApi.getState().auth.user.token
         try {
-            return await productService.getProductList(page, token)
+            return await productService.getProductList(paginationData, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message) ||
                 error.message || error.toString()

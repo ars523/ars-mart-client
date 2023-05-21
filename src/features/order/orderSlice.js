@@ -41,10 +41,10 @@ export const getOrderById = createAsyncThunk(
 
 export const getOrderHistory = createAsyncThunk(
     'order/getOrderHistory',
-    async (_, thunkApi)=>{
+    async (paginationData, thunkApi)=>{
         const token = thunkApi.getState().auth.user.token
         try {
-            return await orderService.getOrderHistory(token)
+            return await orderService.getOrderHistory(paginationData, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message) ||
                             error.message || error.toString()
@@ -55,10 +55,10 @@ export const getOrderHistory = createAsyncThunk(
 
 export const getAllOrders = createAsyncThunk(
     'order/getAllOrders',
-    async (_, thunkApi)=>{
+    async (paginationData, thunkApi)=>{
         const token = thunkApi.getState().auth.user.token
         try {
-            return await orderService.getAllOrders(token)
+            return await orderService.getAllOrders(paginationData, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message) ||
                             error.message || error.toString()
