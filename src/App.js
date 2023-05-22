@@ -28,9 +28,6 @@ import { ToastContainer} from 'react-toastify';
 function App() {
   return (
     <>
-      <Header/>
-      <Toolbar/>
-      <Toolbar/>
         <Routes>
           <Route path='/login' element={<LoginScreen/>}/>
           <Route path='registration' element={<RegisterScreen/>}/>

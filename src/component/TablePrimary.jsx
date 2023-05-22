@@ -1,5 +1,6 @@
 import {
     Button,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -64,23 +65,27 @@ const CellData = ({ rowData, cellData, actions }) => {
     }
 
     if (cellData.value === 'actions') {
-        const buttons = actions.map((action) => (
+        const buttons = actions.map((action, i) => (
             <Button
                 key={action.value + rowData._id}
                 onClick={() => action.onclick(rowData._id)}
                 variant='contained'
                 size='small'
                 color={action.value === 'delete' ? 'error' : 'primary'}
-                sx={{ mr: '0.5rem' }}
             >
                 {action.name}
             </Button>
         ))
-        return buttons
+        return <Stack direction='row'spacing={'1rem'}>{buttons}</Stack>
     }
     if (cellData.value === "createdAt") {
         return <Typography variant='body1' sx={cellText}>
             {rowData[cellData.value].slice(0, 10)}
+        </Typography>
+    }
+    if (cellData.value === "name") {
+        return <Typography variant='body1' sx={cellText}>
+            {`${rowData[cellData.value].slice(0, 30)}${rowData[cellData.value].length>30?'...':''}`}
         </Typography>
     }
     return <Typography variant='body1' sx={cellText}>

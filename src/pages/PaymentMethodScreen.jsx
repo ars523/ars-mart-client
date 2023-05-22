@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { savePaymentMethod } from '../features/cart/cartSlice';
+import LayoutPrimary from '../layouts/LayoutPrimary';
 
 function PaymentMethodScreen() {
   const navigate = useNavigate()
@@ -34,41 +35,43 @@ function PaymentMethodScreen() {
   }
 
   return (
-    <Container>
-      <Grid container direction='column' spacing={'2rem'}>
-        <Grid item> {/* <--- Stepper ---> */}
-          <OrderStepper activeStep={2} />
-        </Grid>
-        <Grid item> {/* <--- Payment Method Selection ---> */}
-          <Grid container direction='column' spacing={'1rem'}>
-            <Grid item>
-              <HeadingPrimary variant='h5'>Payment Method</HeadingPrimary>
-            </Grid>
-            <Grid item>
-              <FormControl>
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  value={value}
-                  onChange={handleChange}
+    <LayoutPrimary>
+      <Container>
+        <Grid container direction='column' spacing={'2rem'}>
+          <Grid item> {/* <--- Stepper ---> */}
+            <OrderStepper activeStep={2} />
+          </Grid>
+          <Grid item> {/* <--- Payment Method Selection ---> */}
+            <Grid container direction='column' spacing={'1rem'}>
+              <Grid item>
+                <HeadingPrimary variant='h5'>Payment Method</HeadingPrimary>
+              </Grid>
+              <Grid item>
+                <FormControl>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={value}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel value="paypal" control={<Radio />} label="PayPal" />
+                    <FormControlLabel value="stripe" control={<Radio />} label="Stripe" />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <ButtonPrimary
+                  variant='contained'
+                  onClick={handleClickContinue}
                 >
-                  <FormControlLabel value="paypal" control={<Radio />} label="PayPal" />
-                  <FormControlLabel value="stripe" control={<Radio />} label="Stripe" />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <ButtonPrimary
-                variant='contained'
-                onClick={handleClickContinue}
-              >
-                Continue
-              </ButtonPrimary>
+                  Continue
+                </ButtonPrimary>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </LayoutPrimary>
   )
 }
 

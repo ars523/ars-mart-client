@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from '../component/Loader';
 import Error from '../component/Error';
 import { toast } from 'react-toastify';
+import LayoutPrimary from '../layouts/LayoutPrimary';
 const UsersListScreen = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -16,16 +17,16 @@ const UsersListScreen = () => {
     const [rowPerPage, setRowPerPage] = useState(10)
 
     useEffect(() => {
-        dispatch(getAllUsers({page: page + 1, pageSize: rowPerPage}))
+        dispatch(getAllUsers({ page: page + 1, pageSize: rowPerPage }))
     }, [dispatch, page, rowPerPage])
 
     const handlePageChangePage = (event, newPage) => {
         setPage(newPage)
-      }
-    
-      const handleChangeRowsPerPage = (event) => {
+    }
+
+    const handleChangeRowsPerPage = (event) => {
         setRowPerPage(parseInt(event.target.value, 10));
-      }
+    }
 
     const columns = [
         { heading: 'Id', value: '_id' },
@@ -67,26 +68,30 @@ const UsersListScreen = () => {
         return <Error message='No Users found' />
     }
     return (
-        <Container>
-            <Grid container direction='column' rowSpacing='2rem'>
-                <Typography variant='h5' sx={{ color: 'grey.900' }}>
-                    Users
-                </Typography>
-                <Grid item container justifyContent='space-between'>
-                    <TableContainer component={Paper}>
-                        <TablePrimary data={users?.users} columns={columns} actions={actions} />
-                        <TablePagination
-                            component="div"
-                            count={users?.countUsers}
-                            page={page}
-                            onPageChange={handlePageChangePage}
-                            rowsPerPage={rowPerPage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
-                    </TableContainer>
+        <LayoutPrimary>
+            <Container>
+                <Grid container direction='column' spacing={'1.5rem'}>
+                    <Grid item>
+                        <Typography variant='h5' sx={{ color: 'grey.900' }}>
+                            Users
+                        </Typography>
+                    </Grid>
+                    <Grid item container justifyContent='space-between'>
+                        <TableContainer component={Paper}>
+                            <TablePrimary data={users?.users} columns={columns} actions={actions} />
+                            <TablePagination
+                                component="div"
+                                count={users?.countUsers}
+                                page={page}
+                                onPageChange={handlePageChangePage}
+                                rowsPerPage={rowPerPage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </TableContainer>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Container>
+            </Container>
+        </LayoutPrimary>
     );
 };
 

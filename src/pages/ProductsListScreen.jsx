@@ -26,6 +26,7 @@ import Error from '../component/Error'
 import TablePrimary from '../component/TablePrimary'
 import { toast } from 'react-toastify'
 import AddIcon from '@mui/icons-material/Add';
+import LayoutPrimary from '../layouts/LayoutPrimary'
 
 function ProductsListScreen() {
   const navigate = useNavigate()
@@ -36,7 +37,7 @@ function ProductsListScreen() {
   const { isLoading, isError, error, isSuccess } = useSelector(state => state.product)
 
   useEffect(() => {
-    dispatch(getProductList({page: page + 1, pageSize: rowPerPage}))
+    dispatch(getProductList({ page: page + 1, pageSize: rowPerPage }))
   }, [page, dispatch, rowPerPage])
 
   useEffect(() => {
@@ -113,61 +114,63 @@ function ProductsListScreen() {
     return <Error message='No product found' />
   }
   return (
-    <Container>
-      <Grid container direction='column' rowSpacing='2rem'>
-        <Grid item container justifyContent='space-between'>
-          <Typography variant='h5' sx={{ color: 'grey.900' }}>
-            Products
-          </Typography>
-          <Button
-            startIcon={<AddIcon />}
-            variant='contained'
-            size='small'
-            onClick={handleClickOpen}
-          >
-            Create Product
-          </Button>
+    <LayoutPrimary>
+      <Container>
+        <Grid container direction='column' rowSpacing='2rem'>
+          <Grid item container justifyContent='space-between'>
+            <Typography variant='h5' sx={{ color: 'grey.900' }}>
+              Products
+            </Typography>
+            <Button
+              startIcon={<AddIcon />}
+              variant='contained'
+              size='small'
+              onClick={handleClickOpen}
+            >
+              Create Product
+            </Button>
 
-          {/* <--Dialog to create product start--> */}
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Create new product?"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                A dummy product will be created and you have to update it with your content and image.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Disagree</Button>
-              <Button onClick={handleCreateProduct} autoFocus>
-                Agree
-              </Button>
-            </DialogActions>
-          </Dialog>
-          {/* <--Dialog to create product start--> */}
-        </Grid>
+            {/* <--Dialog to create product start--> */}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Create new product?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  A dummy product will be created and you have to update it with your content and image.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Disagree</Button>
+                <Button onClick={handleCreateProduct} autoFocus>
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+            {/* <--Dialog to create product start--> */}
+          </Grid>
 
-        <Grid item>
-          <TableContainer component={Paper}>
-            <TablePrimary data={products} columns={columns} actions={actions} />
-            <TablePagination
-              component="div"
-              count={countProducts}
-              page={page}
-              onPageChange={handlePageChangePage}
-              rowsPerPage={rowPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableContainer>
+          <Grid item>
+            <TableContainer component={Paper}>
+              <TablePrimary data={products} columns={columns} actions={actions} />
+              <TablePagination
+                component="div"
+                count={countProducts}
+                page={page}
+                onPageChange={handlePageChangePage}
+                rowsPerPage={rowPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </TableContainer>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </LayoutPrimary>
   )
 }
 

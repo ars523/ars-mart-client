@@ -18,6 +18,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { toast } from 'react-toastify';
+import LayoutPrimary from '../layouts/LayoutPrimary';
 
 const ProductDetailsScreen = () => {
     const navigate = useNavigate()
@@ -69,78 +70,80 @@ const ProductDetailsScreen = () => {
         return <Error message={error} />
     }
     return (
-        <Container>
-            <Grid container spacing={'2.5rem'}>
-                <Grid item md={4} xs={12}>
-                    <Paper variant='outlined'>
-                        <img style={{ width: '100%' }} src={image} alt="" />
-                    </Paper>
-                </Grid>
-                <Grid item md={8} xs={12}>
-                    <Typography variant='h4' sx={{ fontWeight: '500', mb: '0.5rem' }}>{name}</Typography>
-                    <Typography variant='body2' sx={{ textTransform: 'capitalize' }} color={'GrayText'}>By {brand}</Typography>
-                    <Stack
-                        direction='row'
-                        spacing={1}
-                        alignItems='center'
-                        style={{ marginBottom: '1rem' }}
-                    >
-                        <Rating
-                            value={product.rating}
-                            precision={0.5} readOnly
-                            size='small'
-                            sx={{
-                                "& .MuiRating-iconFilled": {
-                                    color: `${theme.palette.primary.main}`
-                                },
-                            }}
-                        />
-                        <Typography variant='subtitle2' sx={{ color: 'GrayText' }}>
-                            {numReviews}
-                            reviews
-                        </Typography>
-                    </Stack>
-                    <Stack direction={'row'} spacing={'1rem'} alignItems={'center'} sx={{ mb: '1rem' }}>
-                        <Paper elevation={0} sx={{ padding: '0.5rem 0.75rem', display: 'flex', background: 'rgb(243 244 246)' }}>
-                            <span style={{ marginTop: '0.25rem', marginRight: '0.25rem' }}>$</span>
-                            <Typography variant='h4' sx={{ fontSize: '1.875rem', lineHeight: '2.25rem', fontWeight: 700 }}>{price}</Typography>
+        <LayoutPrimary>
+            <Container>
+                <Grid container spacing={'2.5rem'}>
+                    <Grid item md={4} xs={12}>
+                        <Paper variant='outlined'>
+                            <img style={{ width: '100%' }} src={image} alt="" />
                         </Paper>
-                        <Box>
-                            <Typography color={'secondary'} variant='h6'>Save 12%</Typography>
-                            <Typography variant='caption' color={'GrayText'}>Inclusive of all Taxes.</Typography>
-                        </Box>
-                    </Stack>
-                    <Typography variant='body1' color={'GrayText'} sx={{ mb: '1rem' }}>{description}</Typography>
-                    <Stack direction={'row'} alignItems={'center'} spacing={'2rem'}>
-                        {
-                            cartQunatity && <TextField
-                                type='number'
-                                InputProps={{
-                                    inputProps: { min: 1 }
-                                }}
-                                value={cartQunatity}
+                    </Grid>
+                    <Grid item md={8} xs={12}>
+                        <Typography variant='h5'>{name}</Typography>
+                        <Typography variant='caption' sx={{ textTransform: 'capitalize' }} color={'GrayText'}>By {brand}</Typography>
+                        <Stack
+                            direction='row'
+                            spacing={1}
+                            alignItems='center'
+                            style={{ marginBottom: '1rem' }}
+                        >
+                            <Rating
+                                value={product.rating}
+                                precision={0.5} readOnly
                                 size='small'
-                                sx={{ width: '4rem' }}
-                                onChange={(e) => setCartQuantity(e.target.value)}
+                                sx={{
+                                    "& .MuiRating-iconFilled": {
+                                        color: `${theme.palette.primary.main}`
+                                    },
+                                }}
                             />
-                        }
-                        {
-                            countInStock === 0
-                                ? (
-                                    <ButtonPrimary variant='contained' disabled>Out of Stock</ButtonPrimary>
-                                ) :
-                                <ButtonPrimary
-                                    startIcon={checkProductExistanceInCart(product)?<CheckCircleIcon/>:<ShoppingCartIcon />}
-                                    variant='contained'
-                                    onClick={() => handleAddCart(cartQunatity)}
-                                >
-                                    {checkProductExistanceInCart(product)?'Update Quantity':'Add to Cart'}
-                                </ButtonPrimary>
-                        }
-                    </Stack>
+                            <Typography variant='subtitle2' sx={{ color: 'GrayText' }}>
+                                {numReviews}
+                                reviews
+                            </Typography>
+                        </Stack>
+                        <Stack direction={'row'} spacing={'1rem'} alignItems={'center'} sx={{ mb: '1rem' }}>
+                            <Paper elevation={0} sx={{ padding: '0.5rem 0.75rem', display: 'flex', background: 'rgb(243 244 246)' }}>
+                                <span style={{ marginTop: '0.25rem', marginRight: '0.25rem' }}>$</span>
+                                <Typography variant='h6' sx={{ fontWeight: 700 }}>{price}</Typography>
+                            </Paper>
+                            <Box>
+                                <Typography color={'secondary'} variant='subtitle1'>Save 12%</Typography>
+                                <Typography variant='caption' color={'GrayText'}>Inclusive of all Taxes.</Typography>
+                            </Box>
+                        </Stack>
+                        <Typography variant='body2' color={'GrayText'} sx={{ mb: '1rem' }}>{description}</Typography>
+                        <Stack direction={'row'} alignItems={'center'} spacing={'2rem'}>
+                            {
+                                cartQunatity && <TextField
+                                    type='number'
+                                    InputProps={{
+                                        inputProps: { min: 1 }
+                                    }}
+                                    value={cartQunatity}
+                                    size='small'
+                                    sx={{ width: '4rem' }}
+                                    onChange={(e) => setCartQuantity(e.target.value)}
+                                />
+                            }
+                            {
+                                countInStock === 0
+                                    ? (
+                                        <ButtonPrimary variant='contained' disabled>Out of Stock</ButtonPrimary>
+                                    ) :
+                                    <ButtonPrimary
+                                        startIcon={checkProductExistanceInCart(product) ? <CheckCircleIcon /> : <ShoppingCartIcon />}
+                                        variant='contained'
+                                        onClick={() => handleAddCart(cartQunatity)}
+                                    >
+                                        {checkProductExistanceInCart(product) ? 'Update Quantity' : 'Add to Cart'}
+                                    </ButtonPrimary>
+                            }
+                        </Stack>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Container>
+            </Container>
+        </LayoutPrimary>
     );
 };
 

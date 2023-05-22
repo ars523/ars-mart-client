@@ -7,6 +7,7 @@ import { getOrderHistory } from '../features/order/orderSlice'
 import { useNavigate } from 'react-router-dom'
 import { Container, Grid, Paper, TableContainer, TablePagination, Typography } from '@mui/material'
 import TablePrimary from '../component/TablePrimary'
+import LayoutPrimary from '../layouts/LayoutPrimary'
 function OrderHistoryScreen() {
   const { ordersHistory, isLoading, isError, error } = useSelector(state => state.order)
   const dispatch = useDispatch()
@@ -15,7 +16,7 @@ function OrderHistoryScreen() {
   const [rowPerPage, setRowPerPage] = useState(10)
 
   useEffect(() => {
-    dispatch(getOrderHistory({page: page + 1, pageSize: rowPerPage}))
+    dispatch(getOrderHistory({ page: page + 1, pageSize: rowPerPage }))
   }, [dispatch, page, rowPerPage])
 
   const handlePageChangePage = (event, newPage) => {
@@ -55,28 +56,30 @@ function OrderHistoryScreen() {
     return <Error message='No order found' />
   }
   return (
-    <Container>
-      <Grid container rowSpacing={'2rem'}>
-        <Grid item xs={12}>
-          <Typography variant='h5' sx={{ color: 'grey.900' }}>
-            Order History
-          </Typography>
+    <LayoutPrimary>
+      <Container>
+        <Grid container rowSpacing={'2rem'}>
+          <Grid item xs={12}>
+            <Typography variant='h5' sx={{ color: 'grey.900' }}>
+              Order History
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              <TablePrimary data={ordersHistory.orders} columns={columns} actions={actions} />
+              <TablePagination
+                component="div"
+                count={ordersHistory?.countOrders}
+                page={page}
+                onPageChange={handlePageChangePage}
+                rowsPerPage={rowPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </TableContainer>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <TablePrimary data={ordersHistory.orders} columns={columns} actions={actions} />
-            <TablePagination
-              component="div"
-              count={ordersHistory?.countOrders}
-              page={page}
-              onPageChange={handlePageChangePage}
-              rowsPerPage={rowPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableContainer>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </LayoutPrimary>
   )
 }
 

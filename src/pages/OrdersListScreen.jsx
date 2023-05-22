@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import TablePrimary from '../component/TablePrimary'
 import { Container, Grid, Paper, TableContainer, TablePagination, Typography } from '@mui/material'
 import { toast } from 'react-toastify'
+import LayoutPrimary from '../layouts/LayoutPrimary'
 
 function OrdersList() {
   const navigate = useNavigate()
@@ -16,7 +17,7 @@ function OrdersList() {
   const [rowPerPage, setRowPerPage] = useState(10)
 
   useEffect(() => {
-    dispatch(getAllOrders({page: page + 1, pageSize: rowPerPage}))
+    dispatch(getAllOrders({ page: page + 1, pageSize: rowPerPage }))
   }, [dispatch, page, rowPerPage])
 
   const handlePageChangePage = (event, newPage) => {
@@ -68,28 +69,30 @@ function OrdersList() {
     return <Error message='No order found' />
   }
   return (
-    <Container>
-      <Grid container rowSpacing={'2rem'}>
-        <Grid item xs={12}>
-          <Typography variant='h5' sx={{ color: 'grey.900' }}>
-            Orders
-          </Typography>
+    <LayoutPrimary>
+      <Container>
+        <Grid container rowSpacing={'2rem'}>
+          <Grid item xs={12}>
+            <Typography variant='h5' sx={{ color: 'grey.900' }}>
+              Orders
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              <TablePrimary data={orders?.orders} columns={columns} actions={actions} />
+              <TablePagination
+                component="div"
+                count={orders.countOrders}
+                page={page}
+                onPageChange={handlePageChangePage}
+                rowsPerPage={rowPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </TableContainer>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <TablePrimary data={orders?.orders} columns={columns} actions={actions} />
-            <TablePagination
-              component="div"
-              count={orders.countOrders}
-              page={page}
-              onPageChange={handlePageChangePage}
-              rowsPerPage={rowPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableContainer>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </LayoutPrimary>
   )
 }
 
