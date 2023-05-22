@@ -1,4 +1,4 @@
-import { Grid, TextField } from '@mui/material'
+import { Grid, TextField, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
@@ -72,12 +72,6 @@ function ProductEditScreen() {
             .then((res) => toast.success('Updated successfully'))
             .catch((error) => toast.error(error))
     }
-    if (isLoading) {
-        return <Loader />
-    }
-    if (isError) {
-        return <Error message={error} />
-    }
     return (
         <LayoutPrimary>
             <Container>
@@ -88,117 +82,122 @@ function ProductEditScreen() {
                     onSubmit={handleFormSubmit}
                 >
                     <Grid item xs={12}>
-                        <HeadingPrimary variant='h5'>
+                        <Typography variant='h5'>
                             Edit Product <br /> {productEdit?._id}
-                        </HeadingPrimary>
+                        </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Name'
-                            size='small'
-                            placeholder='Name'
-                            value={inputData.name}
-                            name='name'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Slug'
-                            size='small'
-                            placeholder='Slug'
-                            name='slug'
-                            value={inputData.slug}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Category'
-                            size='small'
-                            placeholder='Category'
-                            value={inputData.category}
-                            name='category'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Brand'
-                            size='small'
-                            placeholder='Brand'
-                            value={inputData.brand}
-                            name='brand'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Price'
-                            size='small'
-                            placeholder='Price'
-                            value={inputData.price}
-                            name='price'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Count In Stock'
-                            size='small'
-                            placeholder='Count In Stock'
-                            value={inputData.countInStock}
-                            name='countInStock'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            label='Image File'
-                            size='small'
-                            placeholder='Image File'
-                            value={inputData.image}
-                            name='image'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        {
-                            isUploading
-                                ? <CircularProgress />
-                                : <TextField
-                                    fullWidth
-                                    size='small'
-                                    type='file'
-                                    onChange={handleFileChange}
-                                />
-                        }
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={6}
-                            label='Description'
-                            size='small'
-                            placeholder='Description'
-                            value={inputData.description}
-                            name='description'
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <ButtonPrimary type='submit' variant='contained' disabled={isLoading}>
-                            Update
-                        </ButtonPrimary>
-                    </Grid>
+                    {
+                        isLoading ? (<Loader />) :
+                            isError ? (<Error message={error} />) :
+                                (<>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Name'
+                                            size='small'
+                                            placeholder='Name'
+                                            value={inputData.name}
+                                            name='name'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Slug'
+                                            size='small'
+                                            placeholder='Slug'
+                                            name='slug'
+                                            value={inputData.slug}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Category'
+                                            size='small'
+                                            placeholder='Category'
+                                            value={inputData.category}
+                                            name='category'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Brand'
+                                            size='small'
+                                            placeholder='Brand'
+                                            value={inputData.brand}
+                                            name='brand'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Price'
+                                            size='small'
+                                            placeholder='Price'
+                                            value={inputData.price}
+                                            name='price'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Count In Stock'
+                                            size='small'
+                                            placeholder='Count In Stock'
+                                            value={inputData.countInStock}
+                                            name='countInStock'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            label='Image File'
+                                            size='small'
+                                            placeholder='Image File'
+                                            value={inputData.image}
+                                            name='image'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        {
+                                            isUploading
+                                                ? <CircularProgress />
+                                                : <TextField
+                                                    fullWidth
+                                                    size='small'
+                                                    type='file'
+                                                    onChange={handleFileChange}
+                                                />
+                                        }
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            fullWidth
+                                            multiline
+                                            rows={6}
+                                            label='Description'
+                                            size='small'
+                                            placeholder='Description'
+                                            value={inputData.description}
+                                            name='description'
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <ButtonPrimary type='submit' variant='contained' disabled={isLoading}>
+                                            Update
+                                        </ButtonPrimary>
+                                    </Grid>
+                                </>)}
                 </Grid>
             </Container>
         </LayoutPrimary>

@@ -59,15 +59,6 @@ function OrdersList() {
     }
   ]
 
-  if (isLoading) {
-    return <Loader />
-  }
-  else if (isError) {
-    return <Error message={error} />
-  }
-  else if (orders.length === 0) {
-    return <Error message='No order found' />
-  }
   return (
     <LayoutPrimary>
       <Container>
@@ -78,17 +69,20 @@ function OrdersList() {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              <TablePrimary data={orders?.orders} columns={columns} actions={actions} />
-              <TablePagination
-                component="div"
-                count={orders.countOrders}
-                page={page}
-                onPageChange={handlePageChangePage}
-                rowsPerPage={rowPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </TableContainer>
+            {isLoading ? (<Loader />) :
+              isError ? (<Error message={error} />) :
+                orders.length === 0 ? (<Error message='No order found' />) :
+                  (<TableContainer component={Paper}>
+                    <TablePrimary data={orders?.orders} columns={columns} actions={actions} />
+                    <TablePagination
+                      component="div"
+                      count={orders.countOrders}
+                      page={page}
+                      onPageChange={handlePageChangePage}
+                      rowsPerPage={rowPerPage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </TableContainer>)}
           </Grid>
         </Grid>
       </Container>

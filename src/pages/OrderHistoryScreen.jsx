@@ -45,16 +45,6 @@ function OrderHistoryScreen() {
       }
     }
   ]
-
-  if (isLoading) {
-    return <Loader />
-  }
-  else if (isError) {
-    return <Error message={error} />
-  }
-  else if (ordersHistory.length === 0) {
-    return <Error message='No order found' />
-  }
   return (
     <LayoutPrimary>
       <Container>
@@ -65,17 +55,21 @@ function OrderHistoryScreen() {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              <TablePrimary data={ordersHistory.orders} columns={columns} actions={actions} />
-              <TablePagination
-                component="div"
-                count={ordersHistory?.countOrders}
-                page={page}
-                onPageChange={handlePageChangePage}
-                rowsPerPage={rowPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </TableContainer>
+            {
+              isLoading ? (<Loader />) :
+                isError ? (<Error message={error} />) :
+                    (<TableContainer component={Paper}>
+                      <TablePrimary data={ordersHistory.orders} columns={columns} actions={actions} />
+                      <TablePagination
+                        component="div"
+                        count={ordersHistory?.countOrders}
+                        page={page}
+                        onPageChange={handlePageChangePage}
+                        rowsPerPage={rowPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </TableContainer>)
+            }
           </Grid>
         </Grid>
       </Container>

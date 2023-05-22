@@ -103,16 +103,6 @@ function ProductsListScreen() {
   const handleChangeRowsPerPage = (event) => {
     setRowPerPage(parseInt(event.target.value, 10));
   }
-
-  if (isLoading) {
-    return <Loader />
-  }
-  else if (isError) {
-    return <Error message={error} />
-  }
-  else if (products?.length === 0) {
-    return <Error message='No product found' />
-  }
   return (
     <LayoutPrimary>
       <Container>
@@ -156,17 +146,22 @@ function ProductsListScreen() {
           </Grid>
 
           <Grid item>
-            <TableContainer component={Paper}>
-              <TablePrimary data={products} columns={columns} actions={actions} />
-              <TablePagination
-                component="div"
-                count={countProducts}
-                page={page}
-                onPageChange={handlePageChangePage}
-                rowsPerPage={rowPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </TableContainer>
+            {
+              isLoading ? (<Loader />) :
+                isError ? (<Error message={error} />) :
+                  products?.length === 0? (<Error message='No product found' />):
+                    (<TableContainer component={Paper}>
+                      <TablePrimary data={products} columns={columns} actions={actions} />
+                      <TablePagination
+                        component="div"
+                        count={countProducts}
+                        page={page}
+                        onPageChange={handlePageChangePage}
+                        rowsPerPage={rowPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </TableContainer>)
+            }
           </Grid>
         </Grid>
       </Container>

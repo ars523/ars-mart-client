@@ -4,7 +4,7 @@ import { Stack, CircularProgress } from '@mui/material'
 function Loader() {
   return (
     <Stack
-     sx={{width: '100%', maxHeight: '100vh'}}
+     sx={{width: '100%', height: '80vh'}}
      justifyContent='center'
      alignItems='center'
      >

@@ -57,16 +57,6 @@ const UsersListScreen = () => {
             }
         }
     ]
-
-    if (isLoading) {
-        return <Loader />
-    }
-    else if (isError) {
-        return <Error message={error} />
-    }
-    else if (users.length === 0) {
-        return <Error message='No Users found' />
-    }
     return (
         <LayoutPrimary>
             <Container>
@@ -76,18 +66,23 @@ const UsersListScreen = () => {
                             Users
                         </Typography>
                     </Grid>
-                    <Grid item container justifyContent='space-between'>
-                        <TableContainer component={Paper}>
-                            <TablePrimary data={users?.users} columns={columns} actions={actions} />
-                            <TablePagination
-                                component="div"
-                                count={users?.countUsers}
-                                page={page}
-                                onPageChange={handlePageChangePage}
-                                rowsPerPage={rowPerPage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-                        </TableContainer>
+                    <Grid item>
+                        {
+                            isLoading? (<Loader/>):
+                            isError ? (<Error message={error} />):
+                            users.length === 0? <Error message='No Users found' />:
+                            (<TableContainer component={Paper}>
+                                <TablePrimary data={users?.users} columns={columns} actions={actions} />
+                                <TablePagination
+                                    component="div"
+                                    count={users?.countUsers}
+                                    page={page}
+                                    onPageChange={handlePageChangePage}
+                                    rowsPerPage={rowPerPage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </TableContainer>)
+                        }
                     </Grid>
                 </Grid>
             </Container>
