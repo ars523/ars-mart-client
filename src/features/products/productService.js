@@ -68,7 +68,7 @@ const uploadProductImageFile = async (imgageData, token)=>{
             authorization: `Bearer ${token}`,
         }
     }
-    const {data} = await axios.post(`/api/upload`, imgageData, config)
+    const {data} = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, imgageData, config)
     return data
 }
 
