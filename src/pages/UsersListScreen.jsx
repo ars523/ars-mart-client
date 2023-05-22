@@ -1,11 +1,10 @@
-import { Grid, Container, Typography, TableContainer, Paper } from '@mui/material';
-import React, { useEffect } from 'react';
+import { Grid, Container, Typography, TableContainer, Paper, TablePagination } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TablePrimary from '../component/TablePrimary';
 import { deleteUser, getAllUsers } from '../features/user/userSlice';
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { HeadingPrimary } from '../shared/typography';
 import Loader from '../component/Loader';
 import Error from '../component/Error';
 import { toast } from 'react-toastify';
@@ -13,10 +12,20 @@ const UsersListScreen = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { users, isLoading, isError, error } = useSelector((state) => state.user)
+    const [page, setPage] = useState(0)
+    const [rowPerPage, setRowPerPage] = useState(10)
 
     useEffect(() => {
-        dispatch(getAllUsers())
-    }, [dispatch])
+        dispatch(getAllUsers({page: page + 1, pageSize: rowPerPage}))
+    }, [dispatch, page, rowPerPage])
+
+    const handlePageChangePage = (event, newPage) => {
+        setPage(newPage)
+      }
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowPerPage(parseInt(event.target.value, 10));
+      }
 
     const columns = [
         { heading: 'Id', value: '_id' },
@@ -65,7 +74,15 @@ const UsersListScreen = () => {
                 </Typography>
                 <Grid item container justifyContent='space-between'>
                     <TableContainer component={Paper}>
-                        <TablePrimary data={users} columns={columns} actions={actions} />
+                        <TablePrimary data={users?.users} columns={columns} actions={actions} />
+                        <TablePagination
+                            component="div"
+                            count={users?.countUsers}
+                            page={page}
+                            onPageChange={handlePageChangePage}
+                            rowsPerPage={rowPerPage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
                     </TableContainer>
                 </Grid>
             </Grid>

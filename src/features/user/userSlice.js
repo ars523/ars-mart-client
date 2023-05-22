@@ -12,10 +12,10 @@ const initialState = {
 
 export const getAllUsers = createAsyncThunk(
     'user/getAllUsers',
-    async (_, thunkApi) => {
+    async (paginationData, thunkApi) => {
         const token = thunkApi.getState().auth.user.token
         try {
-            return await userService.getAllUsers(token)
+            return await userService.getAllUsers(paginationData, token)
         } catch (error) {
             const message = (error?.response?.data?.message) || error.message || error.toString()
             return thunkApi.rejectWithValue(message)
