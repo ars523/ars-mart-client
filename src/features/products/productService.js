@@ -1,6 +1,7 @@
 import axios from 'axios'
 const URL = process.env.REACT_APP_API_URL+'/api/products'
 
+// ***Get product list by admin***
 const getProductList = async (paginationData, token) => {
     const config = {
         headers: {
@@ -11,16 +12,7 @@ const getProductList = async (paginationData, token) => {
     return res.data
 }
 
-const getProducts = async () => {
-    const res = await axios.get(URL)
-    return res.data
-}
-
-const getProduct = async (slug) => {
-    const res = await axios.get(`${URL}/${slug}`)
-    return res.data
-}
-
+// ***Get product to be edit by admin***
 const getProductEdit = async (id, token) => {
     const config = {
         headers: {
@@ -31,6 +23,19 @@ const getProductEdit = async (id, token) => {
     return res.data
 }
 
+// ***Get products by visitors***
+const getProducts = async () => {
+    const res = await axios.get(URL)
+    return res.data
+}
+
+// ***Get a single product by visitors***
+const getProduct = async (slug) => {
+    const res = await axios.get(`${URL}/${slug}`)
+    return res.data
+}
+
+//***Create a product***
 const createProduct = async (token) => {
     const config = {
         headers: {
@@ -41,6 +46,7 @@ const createProduct = async (token) => {
     return res.data
 }
 
+//***Update a product***
 const updateProduct = async (updatedProductInfo, token) => {
     const config = {
         headers: {
@@ -51,6 +57,7 @@ const updateProduct = async (updatedProductInfo, token) => {
     return res.data
 }
 
+//***Delete a product***
 const deleteProduct = async (productId, token) => {
     const config = {
         headers: {
@@ -61,6 +68,7 @@ const deleteProduct = async (productId, token) => {
     return res.data
 }
 
+//***Upload Product image file ****/
 const uploadProductImageFile = async (imgageData, token)=>{
     const config = {
         headers: {

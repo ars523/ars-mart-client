@@ -2,6 +2,7 @@
 import axios from "axios"
 const URL = process.env.REACT_APP_API_URL+'/api/orders/'
 
+// ***Order product***
 const orderProduct = async (orderDetails, token) => {
     const config = {
         headers: {
@@ -46,6 +47,7 @@ const getAllOrders = async (paginationData, token) => {
     return res.data
 }
 
+//***Delete order by admin ***
 const deleteOrderByAdmin = async (orderId, token) =>{
     const config = {
         headers: {

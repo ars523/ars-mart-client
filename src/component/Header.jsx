@@ -79,7 +79,7 @@ const Header = () => {
                             fontWeight: '800px',
                         }}
                     >
-                        ARS-Fashion
+                        ARS-Mart
                     </Typography>
                 </Link>
                 <Box component='div' sx={{ ml: 'auto' }}>
