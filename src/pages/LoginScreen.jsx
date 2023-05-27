@@ -61,7 +61,7 @@ const LoginScreen = () => {
             <Paper sx={{p:'2rem'}}>
                 <Grid container rowSpacing={3}>
                     <Grid item xs={12}>
-                        <Typography variant="subtitle1" sx={{mb:'1rem'}}>Existing Users Credentials:</Typography>
+                        <Typography variant="subtitle1" sx={{mb:'1rem'}}>Existing Users Credentials (<span style={{fontWeight:'400'}}>Testing Purpose</span>):</Typography>
                         <Stack direction={{md:'row', sm:'column'}} spacing={'1rem'}>
                             <Paper sx={{padding:'1rem'}} variant="outlined">
                                 <Typography align="center">User</Typography>
