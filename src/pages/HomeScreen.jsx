@@ -18,7 +18,7 @@ const HomeScreen = () => {
 
     return (
         <LayoutPrimary>
-            <Container>
+            <Container maxWidth={'xl'}>
                 {
                     isLoading
                         ? (<Loader />)
@@ -34,7 +34,7 @@ const HomeScreen = () => {
                                     <Grid container spacing={{ xs: 2, md: 4 }} sx={{ pr: '1rem' }}>
                                         {
                                             products?.map(product => (
-                                                <Grid item xs={6} md={3} key={product._id}>
+                                                <Grid item xs={6} md={3} xl={2} key={product._id}>
                                                     <ProductItem product={product} />
                                                 </Grid>
                                             ))

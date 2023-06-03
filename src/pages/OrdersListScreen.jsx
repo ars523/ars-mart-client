@@ -16,6 +16,8 @@ function OrdersList() {
   const [page, setPage] = useState(0)
   const [rowPerPage, setRowPerPage] = useState(10)
 
+  console.log(isLoading)
+
   useEffect(() => {
     dispatch(getAllOrders({ page: page + 1, pageSize: rowPerPage }))
   }, [dispatch, page, rowPerPage])
