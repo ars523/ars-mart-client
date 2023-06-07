@@ -68,8 +68,8 @@ const Header = () => {
         },
     }));
     return (
-        <AppBar sx={{ background: '#fff' }} elevation={1}>
-            <Toolbar >
+        <AppBar sx={{ background: '#fff', width:'100%'}} elevation={1} position='sticky'>
+            <Toolbar sx={{height:'4.5rem'}}>
                 <Link to='/' style={{ textDecoration: 'none' }}>
                     <Typography
                         variant='h6'
@@ -89,7 +89,8 @@ const Header = () => {
                             onClick={() => navigate('/carts')}
                         >
                             <StyledBadge
-                                badgeContent={carts.length}
+                                showZero
+                                badgeContent={carts.length? carts.length: 0}
                                 color='primary'
                             >
                                 <ShoppingCartIcon color='primary' />

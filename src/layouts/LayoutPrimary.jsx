@@ -1,13 +1,16 @@
 import React from 'react'
 import Header from '../component/Header'
-import { Box, Toolbar } from '@mui/material'
+import { Box} from '@mui/material'
+import Footer from '../component/Footer'
 
 export default function LayoutPrimary({children, headerBottomGap}) {
   return (
-    <Box sx={{pb:'3rem'}}>
+    <Box>
         <Header/>
-        <Toolbar sx={{mb: headerBottomGap? headerBottomGap: '2rem'}}/>
+        <Box sx={{mb: headerBottomGap? headerBottomGap: '2rem'}}/>
         {children}
+        <Box sx={{mb: '4rem'}}/>
+        {/* <Footer/> */}
     </Box>
   )
 }
